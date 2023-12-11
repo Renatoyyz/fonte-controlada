@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>frmMainMenu</class>
+ <widget class="QWidget" name="frmMainMenu">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -105,6 +105,16 @@ Saida PNP</string>
    <property name="text">
     <string>Testar
 Saida Rele</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txHidden">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
    </property>
   </widget>
  </widget>

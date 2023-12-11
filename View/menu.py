@@ -11,57 +11,60 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(480, 320)
-        self.btConfigProg = QtWidgets.QPushButton(Form)
+class Ui_frmMainMenu(object):
+    def setupUi(self, frmMainMenu):
+        frmMainMenu.setObjectName("frmMainMenu")
+        frmMainMenu.resize(480, 320)
+        self.btConfigProg = QtWidgets.QPushButton(frmMainMenu)
         self.btConfigProg.setGeometry(QtCore.QRect(20, 50, 140, 80))
         self.btConfigProg.setStyleSheet("")
         self.btConfigProg.setObjectName("btConfigProg")
-        self.btInitProg = QtWidgets.QPushButton(Form)
+        self.btInitProg = QtWidgets.QPushButton(frmMainMenu)
         self.btInitProg.setGeometry(QtCore.QRect(320, 50, 140, 80))
         self.btInitProg.setObjectName("btInitProg")
-        self.btTestOutNPN = QtWidgets.QPushButton(Form)
+        self.btTestOutNPN = QtWidgets.QPushButton(frmMainMenu)
         self.btTestOutNPN.setGeometry(QtCore.QRect(20, 190, 140, 80))
         self.btTestOutNPN.setStyleSheet("")
         self.btTestOutNPN.setObjectName("btTestOutNPN")
-        self.btTestOutPNP = QtWidgets.QPushButton(Form)
+        self.btTestOutPNP = QtWidgets.QPushButton(frmMainMenu)
         self.btTestOutPNP.setGeometry(QtCore.QRect(170, 190, 140, 80))
         self.btTestOutPNP.setStyleSheet("")
         self.btTestOutPNP.setObjectName("btTestOutPNP")
-        self.btTestOutRelay = QtWidgets.QPushButton(Form)
+        self.btTestOutRelay = QtWidgets.QPushButton(frmMainMenu)
         self.btTestOutRelay.setGeometry(QtCore.QRect(320, 190, 140, 80))
         self.btTestOutRelay.setStyleSheet("")
         self.btTestOutRelay.setObjectName("btTestOutRelay")
+        self.txHidden = QtWidgets.QLineEdit(frmMainMenu)
+        self.txHidden.setGeometry(QtCore.QRect(10, 10, 31, 22))
+        self.txHidden.setObjectName("txHidden")
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(frmMainMenu)
+        QtCore.QMetaObject.connectSlotsByName(frmMainMenu)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, frmMainMenu):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.btConfigProg.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
-        self.btConfigProg.setText(_translate("Form", "Configurar\n"
+        frmMainMenu.setWindowTitle(_translate("frmMainMenu", "Form"))
+        self.btConfigProg.setToolTip(_translate("frmMainMenu", "<html><head/><body><p><br/></p></body></html>"))
+        self.btConfigProg.setText(_translate("frmMainMenu", "Configurar\n"
 "Programas"))
-        self.btInitProg.setText(_translate("Form", "Iniciar\n"
+        self.btInitProg.setText(_translate("frmMainMenu", "Iniciar\n"
 "Programas"))
-        self.btTestOutNPN.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
-        self.btTestOutNPN.setText(_translate("Form", "Testar\n"
+        self.btTestOutNPN.setToolTip(_translate("frmMainMenu", "<html><head/><body><p><br/></p></body></html>"))
+        self.btTestOutNPN.setText(_translate("frmMainMenu", "Testar\n"
 "Saida NPN"))
-        self.btTestOutPNP.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
-        self.btTestOutPNP.setText(_translate("Form", "Testar\n"
+        self.btTestOutPNP.setToolTip(_translate("frmMainMenu", "<html><head/><body><p><br/></p></body></html>"))
+        self.btTestOutPNP.setText(_translate("frmMainMenu", "Testar\n"
 "Saida PNP"))
-        self.btTestOutRelay.setToolTip(_translate("Form", "<html><head/><body><p><br/></p></body></html>"))
-        self.btTestOutRelay.setText(_translate("Form", "Testar\n"
+        self.btTestOutRelay.setToolTip(_translate("frmMainMenu", "<html><head/><body><p><br/></p></body></html>"))
+        self.btTestOutRelay.setText(_translate("frmMainMenu", "Testar\n"
 "Saida Rele"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
+    frmMainMenu = QtWidgets.QWidget()
+    ui = Ui_frmMainMenu()
+    ui.setupUi(frmMainMenu)
+    frmMainMenu.show()
     sys.exit(app.exec_())
