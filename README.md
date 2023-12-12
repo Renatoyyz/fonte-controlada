@@ -1,6 +1,6 @@
 # Projeto Fonte Controlada MAEDA
 
-Um  projeto de desenvolvimento para controle de um painel de controle de fontes
+Um projeto para controle de fontes externas permitindo ciclagem de saídas
 
 ## Pré-requisitos para o sistema
 
