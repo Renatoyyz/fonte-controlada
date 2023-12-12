@@ -55,6 +55,7 @@ ln -s /usr/lib/python3/dist-packages/PyQt5/ myenv/lib/python3.11/site-packages/P
 
 Onde 'myenv' é o ambiente que foi criado.
 Isso garante que o ambiente virtual acesse o pacote instalado globalmente.
+Esses passos servem para o raspberry, em outros sistemas o PyQt5 pode ser instalado via pip
 
 ## Com o pacote PyQt5 instalado e o Qt Designer instalado
 
