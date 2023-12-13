@@ -7,6 +7,7 @@ from View.menu import Ui_frmMainMenu
 from View.config import Ui_frmConfig
 
 from Controller.Teclados import AlphanumericKeyboard
+from Controller.SimpleMassage import SimpleMessageBox
 
 class MainMenu(QMainWindow):
     def __init__(self, dado=None, io=None):
@@ -36,9 +37,11 @@ class MainMenu(QMainWindow):
 
         self.ui.txHidden.keyReleaseEvent = self.eventoteclado
         self.ui.btConfigProg.clicked.connect(self.open_config)
+        self.ui.btInitProg.clicked.connect(self.init_prog)
 
         # faz com que o objeto fique invisível
         self.ui.txHidden.setStyleSheet("background-color: rgba(0, 0, 0, 0); border: none;")
+        
 
     def eventoteclado(self, event):
         carac = event.text()
@@ -49,6 +52,10 @@ class MainMenu(QMainWindow):
         self.janela_config = Config(dado=self.dado)
         #self.janela2.showMaximized()
         self.janela_config.exec_()
+
+    def init_prog(self):
+        msg = SimpleMessageBox(message="Olá mundo")
+        msg.exec()
 
 class Config(QDialog):
     def __init__(self, dado=None, io=None):
