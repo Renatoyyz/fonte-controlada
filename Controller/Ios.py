@@ -1,8 +1,8 @@
 import platform
 sistema_operacional = platform.system()
-
+print(sistema_operacional)
 # Condição para Raspberry Pi
-if sistema_operacional == 'Linux' and 'arm' in platform.machine():
+if sistema_operacional == 'Linux' and 'aarch64' in platform.machine():
     try:
         import RPi.GPIO as GPIO
     except ImportError:
@@ -60,6 +60,9 @@ import threading
 class InOut:
     def __init__(self):
         self.BUZZER = 20
+
+        GPIO.setmode(GPIO.BCM) 
+        GPIO.setwarnings(False)
         
         GPIO.setup(self.BUZZER, GPIO.OUT)
         GPIO.setmode(GPIO.BCM) 

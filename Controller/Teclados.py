@@ -1,16 +1,37 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QGridLayout, QDialog
+from PyQt5.QtWidgets import QApplication, QVBoxLayout, QPushButton, QLineEdit, QGridLayout, QDialog
+from PyQt5.QtCore import Qt
 
 class AlphanumericKeyboard(QDialog):
-    def __init__(self, dado=None, mode = None):
+    def __init__(self, dado=None, mode=None):
         super().__init__()
         self.dado = dado
         self.mode = mode
         self.setWindowTitle("Teclado Alfanumérico")
+        self.setFixedSize(480, 320)  # Define o tamanho da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
         self.layout.addWidget(self.line_edit)
         self.grid_layout = QGridLayout()
+
+        # Remover a barra de título e ocultar os botões de maximizar e minimizar
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+
+        # Remover a barra de título e ocultar os botões de maximizar e minimizar
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+
+        # Obter o tamanho do monitor primário
+        # screen = QApplication.primaryScreen()
+        # mainScreenRect = screen.availableGeometry()
+
+        # Definir a posição da janela no canto superior esquerdo
+        # self.move(mainScreenRect.topLeft())
+        self.move(0,0)
+
+        self.NOME_PROG = "nome_programa"
+
         self.buttons = [
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
             'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
@@ -42,22 +63,39 @@ class AlphanumericKeyboard(QDialog):
         self.line_edit.setText(current_text[:-1])
 
     def on_ok_click(self):
-        # value = self.line_edit.text()
-        # if self.mode == 'nome_programa_cliclagem':
-        #     # self.dado.set_nome_programa_cliclagem(value)
-        #     print(value)
+        value = self.line_edit.text()
+        if self.mode == self.NOME_PROG:
+            self.dado.set_nome_prog(value)
         self.close()
 
 class NumericKeyboard(QDialog):
-    def __init__(self, dado = None, mode = None):
+    def __init__(self, dado=None, mode=None):
         super().__init__()
         self.dado = dado
         self.mode = mode
         self.setWindowTitle("Teclado Numérico")
+        self.setFixedSize(480, 320)  # Define o tamanho da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
         self.layout.addWidget(self.line_edit)
         self.grid_layout = QGridLayout()
+
+        # Remover a barra de título e ocultar os botões de maximizar e minimizar
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+
+        # Remover a barra de título e ocultar os botões de maximizar e minimizar
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+
+        # Obter o tamanho do monitor primário
+        # screen = QApplication.primaryScreen()
+        # mainScreenRect = screen.availableGeometry()
+
+        # Definir a posição da janela no canto superior esquerdo
+        # self.move(mainScreenRect.topLeft())
+        self.move(0,0)
+
         self.buttons = [
             '1', '2', '3',
             '4', '5', '6',

@@ -1,14 +1,18 @@
 import typing
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QDialog
 from PyQt5.QtCore import Qt
 
 from View.menu import Ui_frmMainMenu
 from View.config import Ui_frmConfig
 
+from Controller.Teclados import AlphanumericKeyboard
+
 class MainMenu(QMainWindow):
-    def __init__(self):
+    def __init__(self, dado=None, io=None):
         super().__init__()
+        self.dado = dado
+        self.io = io
 
         # Configuração da interface do usuário gerada pelo Qt Designer
         self.ui = Ui_frmMainMenu()
@@ -31,6 +35,7 @@ class MainMenu(QMainWindow):
         self.move(0,0)
 
         self.ui.txHidden.keyReleaseEvent = self.eventoteclado
+        self.ui.btConfigProg.clicked.connect(self.open_config)
 
         # faz com que o objeto fique invisível
         self.ui.txHidden.setStyleSheet("background-color: rgba(0, 0, 0, 0); border: none;")
@@ -40,12 +45,20 @@ class MainMenu(QMainWindow):
         if carac == 'q' or carac == 'Q':
             self.close()
 
+    def open_config(self):
+        self.janela_config = Config(dado=self.dado)
+        #self.janela2.showMaximized()
+        self.janela_config.exec_()
+
 class Config(QDialog):
-    def __init__(self):
+    def __init__(self, dado=None, io=None):
         super().__init__()
 
+        self.dado = dado
+        self.io = io
+
         # Configuração da interface do usuário gerada pelo Qt Designer
-        self.ui = Ui_frmMainMenu()
+        self.ui = Ui_frmConfig()
         self.ui.setupUi(self)
 
         # Remover a barra de título e ocultar os botões de maximizar e minimizar
@@ -63,3 +76,20 @@ class Config(QDialog):
         # Definir a posição da janela no canto superior esquerdo
         # self.move(mainScreenRect.topLeft())
         self.move(0,0)
+
+        self.ui.btVoltar.clicked.connect(self.voltar)
+        self.ui.txNomeProg.mouseReleaseEvent = self.write_name
+
+    def voltar(self):
+        self.close()
+
+    def closeEvent(self, event):
+        print("fechou")
+
+    def write_name(self, event):
+        self.teclado = AlphanumericKeyboard(dado=self.dado, mode='nome_programa')
+        self.teclado.exec_()
+        self.ui.txNomeProg.setText(self.dado.nome_prog)
+
+        
+        
