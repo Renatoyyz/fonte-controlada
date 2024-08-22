@@ -4,7 +4,6 @@ from PyQt5.QtCore import Qt
 
 from View.config import Ui_frmConfig
 
-from Model.TesteSaidas import TesteSaidas
 
 class Config(QDialog):
     def __init__(self, dado , io , db):
@@ -31,18 +30,6 @@ class Config(QDialog):
             self.setWindowState(Qt.WindowState.WindowFullScreen)
 
         self.ui.btVoltar.clicked.connect(self.voltar)
-
-        # Se self.tipo_saida:
-        # tipo_saida = 1: Saida NPN
-        # tipo_saida = 2: Saida PNP
-        # tipo_saida = 3: Saida Rele
-        self.ui.btCanalNPN.clicked.connect(lambda: self.teste_saida(1))
-        self.ui.btCanalPNP.clicked.connect(lambda: self.teste_saida(2))
-        self.ui.btCanalRele.clicked.connect(lambda: self.teste_saida(3))
-
-    def teste_saida(self, tipo_saida):
-        tela_npn = TesteSaidas(dado=self.dado, io=self.io, db=self.database, tipo_saida=tipo_saida)
-        tela_npn.exec_()
 
     def voltar(self):
         self.close()

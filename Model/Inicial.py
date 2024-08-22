@@ -5,6 +5,8 @@ from PyQt5.QtCore import Qt
 from View.menu import Ui_frmMainMenu
 from Model.Config import Config
 
+from Model.TesteSaidas import TesteSaidas
+
 class MainMenu(QMainWindow):
     def __init__(self, dado , io , db):
         super().__init__()
@@ -30,6 +32,20 @@ class MainMenu(QMainWindow):
 
         # faz com que o objeto fique invisível
         self.ui.txHidden.setStyleSheet("background-color: rgba(0, 0, 0, 0); border: none;")
+
+        # Se self.tipo_saida:
+        # tipo_saida = 1: Saida NPN
+        # tipo_saida = 2: Saida PNP
+        # tipo_saida = 3: Saida Rele
+        self.ui.btTestOutNPN.clicked.connect(lambda: self.teste_saida(1))
+        self.ui.btTestOutPNP.clicked.connect(lambda: self.teste_saida(2))
+        self.ui.btTestOutRelay.clicked.connect(lambda: self.teste_saida(3))
+
+    def teste_saida(self, tipo_saida):
+        tela_npn = TesteSaidas(dado=self.dado, io=self.io, db=self.database, tipo_saida=tipo_saida)
+        tela_npn.exec_()
+        
+
 
     def tela_config(self):
         tela_config = Config(self.dado, self.io, self.database)
