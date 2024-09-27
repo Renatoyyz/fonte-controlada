@@ -1,42 +1,29 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QPushButton, QLineEdit, QGridLayout, QDialog
-from PyQt5.QtCore import Qt
+from PyQt5 import QtWidgets, QtCore
 
 class AlphanumericKeyboard(QDialog):
-    def __init__(self, dado=None, mode=None):
+    def __init__(self, dado=None):
         super().__init__()
         self.dado = dado
-        self.mode = mode
         self.setWindowTitle("Teclado Alfanumérico")
-        self.setFixedSize(480, 320)  # Define o tamanho da janela
+        self.resize(480, 320)  # Definir as dimensões da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
         self.layout.addWidget(self.line_edit)
         self.grid_layout = QGridLayout()
 
         # Remover a barra de título e ocultar os botões de maximizar e minimizar
-        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-
-        # Remover a barra de título e ocultar os botões de maximizar e minimizar
-        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-
-        # Obter o tamanho do monitor primário
-        # screen = QApplication.primaryScreen()
-        # mainScreenRect = screen.availableGeometry()
-
-        # Definir a posição da janela no canto superior esquerdo
-        # self.move(mainScreenRect.topLeft())
-        self.move(0,0)
-
-        self.NOME_PROG = "nome_programa"
+        self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        
+        if self.dado and self.dado.full_scream:
+            self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
 
         self.buttons = [
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
             'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
             'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
-            'Z', 'X', 'C', 'V', 'B', 'N', 'M', ' ', '<-', 'OK'
+            'Z', 'X', 'C', 'V', 'B', 'N', 'M', '-', '<-', 'OK'
         ]
         positions = [(i, j) for i in range(6) for j in range(8)]
         for position, button in zip(positions, self.buttons):
@@ -63,45 +50,35 @@ class AlphanumericKeyboard(QDialog):
         self.line_edit.setText(current_text[:-1])
 
     def on_ok_click(self):
-        value = self.line_edit.text()
-        if self.mode == self.NOME_PROG:
-            self.dado.set_nome_prog(value)
         self.close()
 
 class NumericKeyboard(QDialog):
-    def __init__(self, dado=None, mode=None):
+    def __init__(self, dado=None, type="password"):
         super().__init__()
         self.dado = dado
-        self.mode = mode
+        self.type = type
         self.setWindowTitle("Teclado Numérico")
-        self.setFixedSize(480, 320)  # Define o tamanho da janela
+        self.resize(480, 320)  # Definir as dimensões da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
+
+        # Remover a barra de título e ocultar os botões de maximizar e minimizar
+        self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        
+        if self.dado and self.dado.full_scream:
+            self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
+
+        if self.type == "password":
+            self.line_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.layout.addWidget(self.line_edit)
         self.grid_layout = QGridLayout()
-
-        # Remover a barra de título e ocultar os botões de maximizar e minimizar
-        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-
-        # Remover a barra de título e ocultar os botões de maximizar e minimizar
-        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-
-        # Obter o tamanho do monitor primário
-        # screen = QApplication.primaryScreen()
-        # mainScreenRect = screen.availableGeometry()
-
-        # Definir a posição da janela no canto superior esquerdo
-        # self.move(mainScreenRect.topLeft())
-        self.move(0,0)
-
         self.buttons = [
             '1', '2', '3',
             '4', '5', '6',
             '7', '8', '9',
-            '.', '0', '<-','-'
+            '.', '0', '<-', '-'
         ]
+
         positions = [(i, j) for i in range(5) for j in range(3)]
         for position, button in zip(positions, self.buttons):
             row, col = position
@@ -135,19 +112,13 @@ class NumericKeyboard(QDialog):
 
     def on_ok_click(self):
         if self.line_edit.text() != "":
-            value = self.line_edit.text()
-            if self.mode == 'quente':
-                self.dado.set_temperatura_quente_setpoint(value)
-            elif self.mode == 'frio':
-                self.dado.set_temperatura_fria_setpoint(value)
-            elif self.mode == 'velo_circulacao':
-                self.dado.set_pwm_circulacao_fria(value)
+            pass
         self.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     numeric_keyboard = NumericKeyboard()
     alphanumeric_keyboard = AlphanumericKeyboard()
-    numeric_keyboard.show()
-    alphanumeric_keyboard.show()
+    numeric_keyboard.exec_()
+    alphanumeric_keyboard.exec_()
     sys.exit(app.exec_())
