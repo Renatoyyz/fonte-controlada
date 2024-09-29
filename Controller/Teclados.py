@@ -76,7 +76,7 @@ class NumericKeyboard(QDialog):
             '1', '2', '3',
             '4', '5', '6',
             '7', '8', '9',
-            '.', '0', '<-', '-'
+            '.', '0', '<-'
         ]
 
         positions = [(i, j) for i in range(5) for j in range(3)]

@@ -11,46 +11,59 @@ class Dado:
         self.BASE_TEMPO_SEGUNDOS = 0
         self.BASE_TEMPO_MINUTOS = 1
 
+        self.programa_salvo = None
+        self.nome_programa = ''
+
         self.HABILITA_CANAL = 1
         self.DESABILITA_CANAL = 0
+        self.salva_programa_tupla(self.reset_programa_tupla())
 
     def cria_programa_tupla(self, **kwargs):
         # Valores padrão
         default_values = {
-            'nome_programa': '',
+            'nome_programa': '',  # Indice 0
             'pnp_canal1_ton': 1.0,
             'pnp_canal1_toff': 1.0,
+            'pnp_canal1_qtd': 1,
             'pnp_canal2_ton': 1.0,
             'pnp_canal2_toff': 1.0,
+            'pnp_canal2_qtd': 1,
             'pnp_canal3_ton': 1.0,
             'pnp_canal3_toff': 1.0,
+            'pnp_canal3_qtd': 1,
             'pnp_canal4_pwm': 50.0,
-            'pnp_canal4_periodo_pwm': 1.0,# esse parametro é o periodo do pwm em segundos
+            'pnp_canal4_periodo_pwm': 1.0,  # esse parametro é o periodo do pwm em segundos
+            'pnp_canal4_tempo': 1,
             'pnp_base_tempo': self.BASE_TEMPO_SEGUNDOS,
             'pnp_habilita_desabilita': self.DESABILITA_CANAL,
-            'pnp_qtd': 1,# esse é a quantidade de ciclos do canal pnp
-            'npn_canal1_ton': 1.0,
+            'npn_canal1_ton': 1.0,  # Indice 15
             'npn_canal1_toff': 1.0,
+            'npn_canal1_qtd': 1,
             'npn_canal2_ton': 1.0,
             'npn_canal2_toff': 1.0,
+            'npn_canal2_qtd': 1,
             'npn_canal3_ton': 1.0,
             'npn_canal3_toff': 1.0,
+            'npn_canal3_qtd': 1,
             'npn_canal4_pwm': 50.0,
-            'npn_canal4_periodo_pwm': 17.0,# esse parametro é o periodo do pwm em segundos
+            'npn_canal4_periodo_pwm': 1.0,  # esse parametro é o periodo do pwm em segundos
+            'npn_canal4_tempo': 1,
             'npn_base_tempo': self.BASE_TEMPO_SEGUNDOS,
             'npn_habilita_desabilita': self.DESABILITA_CANAL,
-            'npn_qtd': 1,# esse é a quantidade de ciclos do canal npn
-            'rele_canal1_ton':  1.0,
+            'rele_canal1_ton': 1.0,  # Indice 29
             'rele_canal1_toff': 1.0,
+            'rele_canal1_qtd': 1,
             'rele_canal2_ton': 1.0,
             'rele_canal2_toff': 1.0,
+            'rele_canal2_qtd': 1,
             'rele_canal3_ton': 1.0,
             'rele_canal3_toff': 1.0,
+            'rele_canal3_qtd': 1,
             'rele_canal4_ton': 1.0,
             'rele_canal4_toff': 1.0,
+            'rele_canal4_qtd': 1,
             'rele_base_tempo': self.BASE_TEMPO_SEGUNDOS,
-            'rele_habilita_desabilita': self.DESABILITA_CANAL,
-            'rele_qtd': 1# esse é a quantidade de ciclos do canal rele
+            'rele_habilita_desabilita': self.DESABILITA_CANAL
         }
 
         # Atualizar valores padrão com os fornecidos em kwargs
@@ -58,18 +71,31 @@ class Dado:
 
         return (
             default_values['nome_programa'], default_values['pnp_canal1_ton'], default_values['pnp_canal1_toff'],
-            default_values['pnp_canal2_ton'], default_values['pnp_canal2_toff'], default_values['pnp_canal3_ton'],
-            default_values['pnp_canal3_toff'], default_values['pnp_canal4_pwm'], default_values['pnp_canal4_periodo_pwm'],
-            default_values['pnp_base_tempo'], default_values['pnp_habilita_desabilita'], default_values['pnp_qtd'],
-            default_values['npn_canal1_ton'], default_values['npn_canal1_toff'], default_values['npn_canal2_ton'],
-            default_values['npn_canal2_toff'], default_values['npn_canal3_ton'], default_values['npn_canal3_toff'],
-            default_values['npn_canal4_pwm'], default_values['npn_canal4_periodo_pwm'], default_values['npn_base_tempo'],
-            default_values['npn_habilita_desabilita'], default_values['npn_qtd'], default_values['rele_canal1_ton'],
-            default_values['rele_canal1_toff'], default_values['rele_canal2_ton'], default_values['rele_canal2_toff'],
-            default_values['rele_canal3_ton'], default_values['rele_canal3_toff'], default_values['rele_canal4_ton'],
-            default_values['rele_canal4_toff'], default_values['rele_base_tempo'], default_values['rele_habilita_desabilita'],
-            default_values['rele_qtd']
+            default_values['pnp_canal1_qtd'], default_values['pnp_canal2_ton'], default_values['pnp_canal2_toff'],
+            default_values['pnp_canal2_qtd'], default_values['pnp_canal3_ton'], default_values['pnp_canal3_toff'],
+            default_values['pnp_canal3_qtd'], default_values['pnp_canal4_pwm'], default_values['pnp_canal4_periodo_pwm'],
+            default_values['pnp_canal4_tempo'], default_values['pnp_base_tempo'], default_values['pnp_habilita_desabilita'],
+            default_values['npn_canal1_ton'], default_values['npn_canal1_toff'], default_values['npn_canal1_qtd'],
+            default_values['npn_canal2_ton'], default_values['npn_canal2_toff'], default_values['npn_canal2_qtd'],
+            default_values['npn_canal3_ton'], default_values['npn_canal3_toff'], default_values['npn_canal3_qtd'],
+            default_values['npn_canal4_pwm'], default_values['npn_canal4_periodo_pwm'], default_values['npn_canal4_tempo'],
+            default_values['npn_base_tempo'], default_values['npn_habilita_desabilita'], default_values['rele_canal1_ton'],
+            default_values['rele_canal1_toff'], default_values['rele_canal1_qtd'], default_values['rele_canal2_ton'],
+            default_values['rele_canal2_toff'], default_values['rele_canal2_qtd'], default_values['rele_canal3_ton'],
+            default_values['rele_canal3_toff'], default_values['rele_canal3_qtd'], default_values['rele_canal4_ton'],
+            default_values['rele_canal4_toff'], default_values['rele_canal4_qtd'], default_values['rele_base_tempo'],
+            default_values['rele_habilita_desabilita']
         )
+    
+    def salva_programa_tupla(self, tupla):
+        self.programa_salvo = tupla
+        # self.reset_programa_tupla()
+
+    def resgata_programa_tupla(self):
+        self.programa_salvo = getattr(self, 'programa_salvo', None)
+        return self.programa_salvo
+    
+
     
     def reset_programa_tupla(self):
         return self.cria_programa_tupla()
@@ -87,37 +113,46 @@ class Dado:
             'nome_programa': row[1],
             'pnp_canal1_ton': row[2],
             'pnp_canal1_toff': row[3],
-            'pnp_canal2_ton': row[4],
-            'pnp_canal2_toff': row[5],
-            'pnp_canal3_ton': row[6],
-            'pnp_canal3_toff': row[7],
-            'pnp_canal4_pwm': row[8],
-            'pnp_canal4_periodo_pwm': row[9],
-            'pnp_base_tempo': row[10],
-            'pnp_habilita_desabilita': row[11],
-            'pnp_qtd': row[12],
-            'npn_canal1_ton': row[13],
-            'npn_canal1_toff': row[14],
-            'npn_canal2_ton': row[15],
-            'npn_canal2_toff': row[16],
-            'npn_canal3_ton': row[17],
-            'npn_canal3_toff': row[18],
-            'npn_canal4_pwm': row[19],
-            'npn_canal4_periodo_pwm': row[20],
-            'npn_base_tempo': row[21],
-            'npn_habilita_desabilita': row[22],
-            'npn_qtd': row[23],
-            'rele_canal1_ton': row[24],
-            'rele_canal1_toff': row[25],
-            'rele_canal2_ton': row[26],
-            'rele_canal2_toff': row[27],
-            'rele_canal3_ton': row[28],
-            'rele_canal3_toff': row[29],
-            'rele_canal4_ton': row[30],
-            'rele_canal4_toff': row[31],
-            'rele_base_tempo': row[32],
-            'rele_habilita_desabilita': row[33],
-            'rele_qtd': row[34]
+            'pnp_canal1_qtd': row[4],
+            'pnp_canal2_ton': row[5],
+            'pnp_canal2_toff': row[6],
+            'pnp_canal2_qtd': row[7],
+            'pnp_canal3_ton': row[8],
+            'pnp_canal3_toff': row[9],
+            'pnp_canal3_qtd': row[10],
+            'pnp_canal4_pwm': row[11],
+            'pnp_canal4_periodo_pwm': row[12],
+            'pnp_canal4_tempo': row[13],
+            'pnp_base_tempo': row[14],
+            'pnp_habilita_desabilita': row[15],
+            'npn_canal1_ton': row[16],
+            'npn_canal1_toff': row[17],
+            'npn_canal1_qtd': row[18],
+            'npn_canal2_ton': row[19],
+            'npn_canal2_toff': row[20],
+            'npn_canal2_qtd': row[21],
+            'npn_canal3_ton': row[22],
+            'npn_canal3_toff': row[23],
+            'npn_canal3_qtd': row[24],
+            'npn_canal4_pwm': row[25],
+            'npn_canal4_periodo_pwm': row[26],
+            'npn_canal4_tempo': row[27],
+            'npn_base_tempo': row[28],
+            'npn_habilita_desabilita': row[29],
+            'rele_canal1_ton': row[30],
+            'rele_canal1_toff': row[31],
+            'rele_canal1_qtd': row[32],
+            'rele_canal2_ton': row[33],
+            'rele_canal2_toff': row[34],
+            'rele_canal2_qtd': row[35],
+            'rele_canal3_ton': row[36],
+            'rele_canal3_toff': row[37],
+            'rele_canal3_qtd': row[38],
+            'rele_canal4_ton': row[39],
+            'rele_canal4_toff': row[40],
+            'rele_canal4_qtd': row[41],
+            'rele_base_tempo': row[42],
+            'rele_habilita_desabilita': row[43]
         }
 
         # Atualizar a tupla com os valores do banco de dados
