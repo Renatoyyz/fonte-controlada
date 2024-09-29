@@ -1,11 +1,13 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QMainWindow, QDialog
+from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox
 from PyQt5.QtCore import Qt
 
 from View.menu import Ui_frmMainMenu
+from Controller.ViewProgramas import ViewProgramas
 from Model.Config import Config
 
 from Model.TesteSaidas import TesteSaidas
+from Model.Execucao import Execucao
 
 class MainMenu(QMainWindow):
     def __init__(self, dado , io , db):
@@ -41,11 +43,18 @@ class MainMenu(QMainWindow):
         self.ui.btTestOutPNP.clicked.connect(lambda: self.teste_saida(2))
         self.ui.btTestOutRelay.clicked.connect(lambda: self.teste_saida(3))
 
+        self.ui.btInitProg.clicked.connect(self.iniciar_programa)
+
     def teste_saida(self, tipo_saida):
         tela_npn = TesteSaidas(dado=self.dado, io=self.io, db=self.database, tipo_saida=tipo_saida)
         tela_npn.exec_()
         
-
+    def iniciar_programa(self):
+        tela_programas = ViewProgramas(dado=self.dado, io=self.io, db=self.database)
+        tela_programas.exec_()
+        if tela_programas.nome_programa:
+            tela_execucao = Execucao(dado=self.dado, io=self.io, db=self.database, nome_programa=tela_programas.nome_programa)
+            tela_execucao.exec_()
 
     def tela_config(self):
         tela_config = Config(self.dado, self.io, self.database)
