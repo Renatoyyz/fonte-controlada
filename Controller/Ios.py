@@ -51,9 +51,9 @@ else:
         @staticmethod
         def output(pin, value):
             if value == HIGH:
-                print('ligado')
+                print(f'ligado{pin}')
             else:
-                print('desligado')
+                print(f'desligado{pin}')
 
 class InOut:
     def __init__(self):

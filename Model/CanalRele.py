@@ -45,7 +45,7 @@ class CanalRele(QDialog):
 
     def config(self):
         self.prog = self.dado.resgata_programa_tupla()
-        start_index = 29# 29 é o index do rele_canal1_ton
+        start_index = 33# 33 é o index do rele_canal1_ton
 
         self.ui.txTonCanal_1.setText(str(self.prog[start_index]))
         self.ui.txToffCanal_1.setText(str(self.prog[start_index + 1]))
@@ -157,21 +157,26 @@ class CanalRele(QDialog):
             pnp_canal3_qtd=self.prog[9],
             pnp_canal4_pwm=self.prog[10],
             pnp_canal4_periodo_pwm=self.prog[11],
-            pnp_canal4_tempo=self.prog[12],
-            pnp_base_tempo=self.prog[13],
-            pnp_habilita_desabilita=self.prog[14],
-            npn_canal1_ton=self.prog[15],
-            npn_canal1_toff=self.prog[16],
-            npn_canal1_qtd=self.prog[17],
-            npn_canal2_ton=self.prog[18],
-            npn_canal2_toff=self.prog[19],
-            npn_canal2_qtd=self.prog[20],
-            npn_canal3_ton=self.prog[21],
-            npn_canal3_toff=self.prog[22],
-            npn_canal3_qtd=self.prog[23],
-            npn_canal4_pwm=self.prog[24],
-            npn_canal4_periodo_pwm=self.prog[25],
-            npn_canal4_tempo=self.prog[26],
+            pnp_canal4_ton=self.prog[12],
+            pnp_canal4_toff=self.prog[13],
+            pnp_canal4_qtd=self.prog[14],
+
+            pnp_base_tempo=self.prog[15],
+            pnp_habilita_desabilita=self.prog[16],
+            npn_canal1_ton=self.prog[17],
+            npn_canal1_toff=self.prog[18],
+            npn_canal1_qtd=self.prog[19],
+            npn_canal2_ton=self.prog[20],
+            npn_canal2_toff=self.prog[21],
+            npn_canal2_qtd=self.prog[22],
+            npn_canal3_ton=self.prog[23],
+            npn_canal3_toff=self.prog[24],
+            npn_canal3_qtd=self.prog[25],
+            npn_canal4_pwm=self.prog[26],
+            npn_canal4_periodo_pwm=self.prog[27],
+            npn_canal4_ton=self.prog[28],
+            npn_canal4_toff=self.prog[29],
+            npn_canal4_qtd=self.prog[30],
             npn_base_tempo=npn_base_tempo,
             npn_habilita_desabilita=npn_habilita_desabilita,
             rele_canal1_ton=float(self.ui.txTonCanal_1.text()),

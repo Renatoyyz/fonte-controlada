@@ -48,6 +48,8 @@ class Config(QDialog):
 
     def config(self):
         self.ui.txNomeProg.setText(self.dado.nome_programa)
+        self.dado.programa_salvo = self.dado.reset_programa_tupla()
+        print(self.dado.programa_salvo)
 
     def eventoteclado(self, event):
         num_teclado = AlphanumericKeyboard(dado=self.dado)
@@ -87,8 +89,8 @@ class Config(QDialog):
         self.dado.nome_programa = self.ui.txNomeProg.text().strip()
         
         # Verificar se o nome do programa está vazio
-        if not self.dado.nome_programa:
-            QMessageBox.warning(self, "Aviso", "O nome do programa não pode estar vazio!")
+        if not self.dado.nome_programa or self.dado.programa_salvo[0] == "":
+            QMessageBox.warning(self, "Aviso", "O nome do programa está vazio ou os dados de canal não foram salvos!")
             return
         
         # Verificar se já existe um programa com o mesmo nome
