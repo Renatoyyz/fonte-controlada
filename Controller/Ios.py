@@ -57,10 +57,10 @@ else:
 
 class InOut:
     def __init__(self):
-        self.BUZZER = 20
-        self.NPN_OUTPUTS = [21, 22, 23, 24]
-        self.PNP_OUTPUTS = [25, 26, 27, 28]
-        self.RELAY_OUTPUTS = [29, 30, 31, 32]
+        self.BUZZER = 18
+        self.NPN_OUTPUTS = [13, 12, 6, 5]
+        self.PNP_OUTPUTS = [19, 16, 26, 20]
+        self.RELAY_OUTPUTS = [21, 4, 22, 23]
         
         GPIO.setup(self.BUZZER, GPIO.OUT)
         GPIO.setmode(GPIO.BCM) 
