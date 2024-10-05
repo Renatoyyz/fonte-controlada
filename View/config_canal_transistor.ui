@@ -89,12 +89,12 @@
      <rect>
       <x>10</x>
       <y>130</y>
-      <width>60</width>
+      <width>80</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>TON</string>
+     <string>TON(min)</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="txTonCanal_4">
@@ -112,12 +112,12 @@
      <rect>
       <x>10</x>
       <y>180</y>
-      <width>60</width>
+      <width>80</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>TOFF</string>
+     <string>TOFF(min)</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="txToffCanal_4">

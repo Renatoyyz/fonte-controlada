@@ -33,6 +33,9 @@ class Execucao(QDialog):
         self.iniciado_pnp = False
         self.iniciado_rele = False
 
+        self.oscila_msg = False
+        self.cnt_osciala = 0
+
         self.fim_npn = False
         self.fim_pnp = False
         self.fim_rele = False
@@ -234,18 +237,64 @@ class Execucao(QDialog):
 
     @QtCore.pyqtSlot()
     def atualizar_interface(self):
-        if self.npn_habilita_desabilita == 1 and self.iniciado_npn:
+        if self.npn_habilita_desabilita == 1 and self.iniciado_npn and self.fim_npn==False:
             self.executa_canal_npn()
-        if self.pnp_habilita_desabilita == 1 and self.iniciado_pnp:
-            self.executa_canal_pnp() 
-        if self.rele_habilita_desabilita == 1 and self.iniciado_rele:
+        else:
+            if self.npn_habilita_desabilita == 0:
+                self.fim_npn = True
+            self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
+            self.estado_cor_npn_1 = self.CINZA
+            self.io.npn_output(0, 0)
+            self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
+            self.estado_cor_npn_2 = self.CINZA
+            self.io.npn_output(1, 0)
+            self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
+            self.estado_cor_npn_3 = self.CINZA
+            self.io.npn_output(2, 0)
+            self.mudar_cor_label("lbNpn_canal_4", self.CINZA)
+            self.estado_cor_npn_4 = self.CINZA
+            self.io.npn_output(3, 0)
+        if self.pnp_habilita_desabilita == 1 and self.iniciado_pnp and self.fim_pnp==False:
+            self.executa_canal_pnp()
+        else:
+            if self.pnp_habilita_desabilita == 0:
+                self.fim_pnp = True
+            self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
+            self.estado_cor_pnp_1 = self.CINZA
+            self.io.pnp_output(0, 0)
+            self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
+            self.estado_cor_pnp_2 = self.CINZA
+            self.io.pnp_output(1, 0)
+            self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
+            self.estado_cor_pnp_3 = self.CINZA
+            self.io.pnp_output(2, 0)
+            self.mudar_cor_label("lbPnp_canal_4", self.CINZA)
+            self.estado_cor_pnp_4 = self.CINZA
+            self.io.pnp_output(3, 0)
+        if self.rele_habilita_desabilita == 1 and self.iniciado_rele and self.fim_rele==False:
             self.executa_canal_rele()
+        else:
+            if self.rele_habilita_desabilita == 0:
+                self.fim_rele = True
+            self.mudar_cor_label("lbRele_canal_1", self.CINZA)
+            self.estado_cor_rele_1 = self.CINZA
+            self.io.relay_output(0, 0)
+            self.mudar_cor_label("lbRele_canal_2", self.CINZA)
+            self.estado_cor_rele_2 = self.CINZA
+            self.io.relay_output(1, 0)
+            self.mudar_cor_label("lbRele_canal_3", self.CINZA)
+            self.estado_cor_rele_3 = self.CINZA
+            self.io.relay_output(2, 0)
+            self.mudar_cor_label("lbRele_canal_4", self.CINZA)
+            self.estado_cor_rele_4 = self.CINZA
+            self.io.relay_output(3, 0)
 
         if self.fim_npn and self.fim_pnp and self.fim_rele:
             self.fim_npn = False
             self.fim_pnp = False
             self.fim_rele = False
             self.ui.lbNomeProg.setText(f"{self.nome_programa}: Parado")
+            self.ui.btIniciarPausar.setText("Iniciar")
             QMessageBox.information(self, "Fim do Programa", "Programa finalizado com sucesso!")
 
     def executa_canal_npn(self):
@@ -253,125 +302,145 @@ class Execucao(QDialog):
             return
 
         if self.npn_habilita_desabilita == 1 and self.iniciado_npn and self.fim_npn==False:
-            self.ui.lbNomeProg.setText(f"{self.nome_programa}: Executando")
+            self.oscila_executando()
             incremento_canal1 = 0.1 if self.npn_base_tempo == 0 else 0.1 / 60  # Incrementa em 0.1 segundos ou 0.1 minutos
             incremento_canal2 = 0.1 if self.npn_base_tempo == 0 else 0.1 / 60
             incremento_canal3 = 0.1 if self.npn_base_tempo == 0 else 0.1 / 60
-            incremento_canal4 = 0.1 if self.npn_base_tempo == 0 else 0.1 / 60
+            incremento_canal4 = 0.1  # Incrementa em 0.1 segundos
 
             ton_pwm = self.npn_pwm_periodo_canal4 * (self.npn_pwm_canal4 / 100)
             toff_pwm = self.npn_pwm_periodo_canal4 - ton_pwm
 
             # Canal 1
-            if self.estado_cor_npn_1 == self.VERDE:
-                self.tempo_npn_decorrido_canal1 += incremento_canal1
-                self.io.npn_output(0, 1)
-                if self.tempo_npn_decorrido_canal1 >= self.npn_canal1_ton:
-                    self.tempo_npn_decorrido_canal1 = 0
-                    self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
-                    self.estado_cor_npn_1 = self.CINZA
-            else:
-                self.tempo_npn_decorrido_canal1 += incremento_canal1
-                self.io.npn_output(0, 0)
-                if self.tempo_npn_decorrido_canal1 >= self.npn_canal1_toff:
-                    self.tempo_npn_decorrido_canal1 = 0
-                    self.mudar_cor_label("lbNpn_canal_1", self.VERDE)
-                    self.estado_cor_npn_1 = self.VERDE
-
-                    self.npn_canal1_contador += 1  # Incrementa o contador ao finalizar npn_canal1_toff
-
-                    if self.npn_canal1_contador >= self.npn_canal1_qtd+1:
-                        self.npn_canal1_contador = self.npn_canal1_qtd
+            if self.npn_canal1_contador < self.npn_canal1_qtd:
+                if self.estado_cor_npn_1 == self.VERDE:
+                    self.tempo_npn_decorrido_canal1 += incremento_canal1
+                    self.io.npn_output(0, 1)
+                    if self.tempo_npn_decorrido_canal1 >= self.npn_canal1_ton:
+                        self.tempo_npn_decorrido_canal1 = 0
                         self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
                         self.estado_cor_npn_1 = self.CINZA
-        
-                    self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador} de {self.npn_canal1_qtd}")
+                else:
+                    self.tempo_npn_decorrido_canal1 += incremento_canal1
+                    self.io.npn_output(0, 0)
+                    if self.tempo_npn_decorrido_canal1 >= self.npn_canal1_toff:
+                        self.tempo_npn_decorrido_canal1 = 0
+                        self.mudar_cor_label("lbNpn_canal_1", self.VERDE)
+                        self.estado_cor_npn_1 = self.VERDE
+
+                        self.npn_canal1_contador += 1  # Incrementa o contador ao finalizar npn_canal1_toff
+
+                        if self.npn_canal1_contador >= self.npn_canal1_qtd+1:
+                            self.npn_canal1_contador = self.npn_canal1_qtd
+                            self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
+                            self.estado_cor_npn_1 = self.CINZA
+            
+                        self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador} de {self.npn_canal1_qtd}")
+            else:
+                self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
+                self.estado_cor_npn_1 = self.CINZA
+                self.io.npn_output(0, 0)
 
             # Canal 2
-            if self.estado_cor_npn_2 == self.VERDE:
-                self.tempo_npn_decorrido_canal2 += incremento_canal2
-                self.io.npn_output(1, 1)
-                if self.tempo_npn_decorrido_canal2 >= self.npn_canal2_ton:
-                    self.tempo_npn_decorrido_canal2 = 0
-                    self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
-                    self.estado_cor_npn_2 = self.CINZA
-            else:
-                self.tempo_npn_decorrido_canal2 += incremento_canal2
-                self.io.npn_output(1, 0)
-                if self.tempo_npn_decorrido_canal2 >= self.npn_canal2_toff:
-                    self.tempo_npn_decorrido_canal2 = 0
-                    self.mudar_cor_label("lbNpn_canal_2", self.VERDE)
-                    self.estado_cor_npn_2 = self.VERDE
-
-                    self.npn_canal2_contador += 1  # Incrementa o contador ao finalizar npn_canal2_toff
-
-                    if self.npn_canal2_contador >= self.npn_canal2_qtd+1:
-                        self.npn_canal2_contador = self.npn_canal2_qtd
+            if self.npn_canal2_contador < self.npn_canal2_qtd:
+                if self.estado_cor_npn_2 == self.VERDE:
+                    self.tempo_npn_decorrido_canal2 += incremento_canal2
+                    self.io.npn_output(1, 1)
+                    if self.tempo_npn_decorrido_canal2 >= self.npn_canal2_ton:
+                        self.tempo_npn_decorrido_canal2 = 0
                         self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
                         self.estado_cor_npn_2 = self.CINZA
-        
-                    self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador} de {self.npn_canal2_qtd}")
+                else:
+                    self.tempo_npn_decorrido_canal2 += incremento_canal2
+                    self.io.npn_output(1, 0)
+                    if self.tempo_npn_decorrido_canal2 >= self.npn_canal2_toff:
+                        self.tempo_npn_decorrido_canal2 = 0
+                        self.mudar_cor_label("lbNpn_canal_2", self.VERDE)
+                        self.estado_cor_npn_2 = self.VERDE
+
+                        self.npn_canal2_contador += 1  # Incrementa o contador ao finalizar npn_canal2_toff
+
+                        if self.npn_canal2_contador >= self.npn_canal2_qtd+1:
+                            self.npn_canal2_contador = self.npn_canal2_qtd
+                            self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
+                            self.estado_cor_npn_2 = self.CINZA
+            
+                        self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador} de {self.npn_canal2_qtd}")
+            else:
+                self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
+                self.estado_cor_npn_2 = self.CINZA
+                self.io.npn_output(1, 0)
 
             # Canal 3
-            if self.estado_cor_npn_3 == self.VERDE:
-                self.tempo_npn_decorrido_canal3 += incremento_canal3
-                self.io.npn_output(2, 1)
-                if self.tempo_npn_decorrido_canal3 >= self.npn_canal3_ton:
-                    self.tempo_npn_decorrido_canal3 = 0
-                    self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
-                    self.estado_cor_npn_3 = self.CINZA
-            else:
-                self.tempo_npn_decorrido_canal3 += incremento_canal3
-                self.io.npn_output(2, 0)
-                if self.tempo_npn_decorrido_canal3 >= self.npn_canal3_toff:
-                    self.tempo_npn_decorrido_canal3 = 0
-                    self.mudar_cor_label("lbNpn_canal_3", self.VERDE)
-                    self.estado_cor_npn_3 = self.VERDE
-
-                    self.npn_canal3_contador += 1  # Incrementa o contador ao finalizar npn_canal3_toff
-
-                    if self.npn_canal3_contador >= self.npn_canal3_qtd+1:
-                        self.npn_canal3_contador = self.npn_canal3_qtd
+            if self.npn_canal3_contador < self.npn_canal3_qtd:
+                if self.estado_cor_npn_3 == self.VERDE:
+                    self.tempo_npn_decorrido_canal3 += incremento_canal3
+                    self.io.npn_output(2, 1)
+                    if self.tempo_npn_decorrido_canal3 >= self.npn_canal3_ton:
+                        self.tempo_npn_decorrido_canal3 = 0
                         self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
                         self.estado_cor_npn_3 = self.CINZA
-        
-                    self.mudar_texto_label("lbNpn_qdt_3", f"{self.npn_canal3_contador} de {self.npn_canal3_qtd}")
+                else:
+                    self.tempo_npn_decorrido_canal3 += incremento_canal3
+                    self.io.npn_output(2, 0)
+                    if self.tempo_npn_decorrido_canal3 >= self.npn_canal3_toff:
+                        self.tempo_npn_decorrido_canal3 = 0
+                        self.mudar_cor_label("lbNpn_canal_3", self.VERDE)
+                        self.estado_cor_npn_3 = self.VERDE
+
+                        self.npn_canal3_contador += 1  # Incrementa o contador ao finalizar npn_canal3_toff
+
+                        if self.npn_canal3_contador >= self.npn_canal3_qtd+1:
+                            self.npn_canal3_contador = self.npn_canal3_qtd
+                            self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
+                            self.estado_cor_npn_3 = self.CINZA
+            
+                        self.mudar_texto_label("lbNpn_qdt_3", f"{self.npn_canal3_contador} de {self.npn_canal3_qtd}")
+            else:
+                self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
+                self.estado_cor_npn_3 = self.CINZA
+                self.io.npn_output(2, 0)    
 
             # Canal 4
-            if self.estado_ligado_canal4_npn:
-                if self.estado_cor_npn_4 == self.VERDE:
-                    self.tempo_npn_decorrido_canal4 += incremento_canal4
-                    self.io.npn_output(3, 1)
-                    if self.tempo_npn_decorrido_canal4 >= ton_pwm:
-                        self.tempo_npn_decorrido_canal4 = 0
-                        self.mudar_cor_label("lbNpn_canal_4", self.CINZA)
-                        self.estado_cor_npn_4 = self.CINZA
+            if self.npn_canal4_contador < self.npn_canal4_qtd + 1:
+                if self.estado_ligado_canal4_npn:
+                    if self.estado_cor_npn_4 == self.VERDE:
+                        self.tempo_npn_decorrido_canal4 += incremento_canal4
+                        self.io.npn_output(3, 1)
+                        if self.tempo_npn_decorrido_canal4 >= ton_pwm:
+                            self.tempo_npn_decorrido_canal4 = 0
+                            self.mudar_cor_label("lbNpn_canal_4", self.CINZA)
+                            self.estado_cor_npn_4 = self.CINZA
+                    else:
+                        self.tempo_npn_decorrido_canal4 += incremento_canal4
+                        self.io.npn_output(3, 0)
+                        if self.tempo_npn_decorrido_canal4 >= toff_pwm:
+                            self.tempo_npn_decorrido_canal4 = 0
+                            self.mudar_cor_label("lbNpn_canal_4", self.VERDE)
+                            self.estado_cor_npn_4 = self.VERDE
+
+                    self.tempo_ligado_canal4_npn += incremento_canal4
+                    if self.tempo_ligado_canal4_npn >= self.npn_canal4_ton * 60:  # Convertendo minutos para segundos
+                        self.tempo_ligado_canal4_npn = 0
+                        self.estado_ligado_canal4_npn = False
+                        
+                        if self.npn_canal4_contador >= self.npn_canal4_qtd+1:
+                            self.npn_canal4_contador = self.npn_canal4_qtd
+                            self.mudar_cor_label("lbNpn_canal_4", self.CINZA)
+                            self.estado_cor_npn_4 = self.CINZA
+
+                    self.mudar_texto_label("lbNpn_qdt_4", f"{self.npn_canal4_contador} de {self.npn_canal4_qtd}")
                 else:
-                    self.tempo_npn_decorrido_canal4 += incremento_canal4
+                    self.tempo_desligado_canal4_npn += incremento_canal4
+                    if self.tempo_desligado_canal4_npn >= self.npn_canal4_toff * 60:  # Convertendo minutos para segundos
+                        self.tempo_desligado_canal4_npn = 0
+                        self.estado_ligado_canal4_npn = True
+                        self.npn_canal4_contador += 1  # Incrementa o contador ao finalizar o tempo ligado
+
+                    self.mudar_cor_label("lbNpn_canal_4", self.CINZA)
+                    self.estado_cor_npn_4 = self.CINZA
                     self.io.npn_output(3, 0)
-                    if self.tempo_npn_decorrido_canal4 >= toff_pwm:
-                        self.tempo_npn_decorrido_canal4 = 0
-                        self.mudar_cor_label("lbNpn_canal_4", self.VERDE)
-                        self.estado_cor_npn_4 = self.VERDE
-
-                self.tempo_ligado_canal4_npn += incremento_canal4
-                if self.tempo_ligado_canal4_npn >= self.npn_canal4_ton * 60:  # Convertendo minutos para segundos
-                    self.tempo_ligado_canal4_npn = 0
-                    self.estado_ligado_canal4_npn = False
-                    
-                    if self.npn_canal4_contador >= self.npn_canal4_qtd+1:
-                        self.npn_canal4_contador = self.npn_canal4_qtd
-                        self.mudar_cor_label("lbNpn_canal_4", self.CINZA)
-                        self.estado_cor_npn_4 = self.CINZA
-
-                self.mudar_texto_label("lbNpn_qdt_4", f"{self.npn_canal4_contador} de {self.npn_canal4_qtd}")
             else:
-                self.tempo_desligado_canal4_npn += incremento_canal4
-                if self.tempo_desligado_canal4_npn >= self.npn_canal4_toff * 60:  # Convertendo minutos para segundos
-                    self.tempo_desligado_canal4_npn = 0
-                    self.estado_ligado_canal4_npn = True
-                    self.npn_canal4_contador += 1  # Incrementa o contador ao finalizar o tempo ligado
-
                 self.mudar_cor_label("lbNpn_canal_4", self.CINZA)
                 self.estado_cor_npn_4 = self.CINZA
                 self.io.npn_output(3, 0)
@@ -387,7 +456,6 @@ class Execucao(QDialog):
 
         if self.npn_canal1_contador >= self.npn_canal1_qtd and self.npn_canal2_contador >= self.npn_canal2_qtd and self.npn_canal3_contador >= self.npn_canal3_qtd and self.npn_canal4_contador >= self.npn_canal4_qtd+1:
             self.iniciado_npn = False
-            self.ui.btIniciarPausar.setText("Iniciar")
 
             self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador} de {self.npn_canal1_qtd}")
             self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador} de {self.npn_canal2_qtd}")
@@ -425,125 +493,146 @@ class Execucao(QDialog):
             return
 
         if self.pnp_habilita_desabilita == 1 and self.iniciado_pnp and self.fim_pnp==False:
-            self.ui.lbNomeProg.setText(f"{self.nome_programa}: Executando")
+            self.oscila_executando()
             incremento_canal1 = 0.1 if self.pnp_base_tempo == 0 else 0.1 / 60  # Incrementa em 0.1 segundos ou 0.1 minutos
             incremento_canal2 = 0.1 if self.pnp_base_tempo == 0 else 0.1 / 60
             incremento_canal3 = 0.1 if self.pnp_base_tempo == 0 else 0.1 / 60
-            incremento_canal4 = 0.1 if self.pnp_base_tempo == 0 else 0.1 / 60
+            incremento_canal4 = 0.1 # Incrementa em 0.1 segundos
 
             ton_pwm = self.pnp_pwm_periodo_canal4 * (self.npn_pwm_canal4 / 100)
             toff_pwm = self.pnp_pwm_periodo_canal4 - ton_pwm
 
             # Canal 1
-            if self.estado_cor_pnp_1 == self.VERDE:
-                self.tempo_pnp_decorrido_canal1 += incremento_canal1
-                self.io.pnp_output(0, 1)
-                if self.tempo_pnp_decorrido_canal1 >= self.pnp_canal1_ton:
-                    self.tempo_pnp_decorrido_canal1 = 0
-                    self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
-                    self.estado_cor_pnp_1 = self.CINZA
-            else:
-                self.tempo_pnp_decorrido_canal1 += incremento_canal1
-                self.io.pnp_output(0, 0)
-                if self.tempo_pnp_decorrido_canal1 >= self.pnp_canal1_toff:
-                    self.tempo_pnp_decorrido_canal1 = 0
-                    self.mudar_cor_label("lbPnp_canal_1", self.VERDE)
-                    self.estado_cor_pnp_1 = self.VERDE
-
-                    self.pnp_canal1_contador += 1  # Incrementa o contador ao finalizar pnp_canal1_toff
-
-                    if self.pnp_canal1_contador >= self.pnp_canal1_qtd + 1:
-                        self.pnp_canal1_contador = self.pnp_canal1_qtd
+            if self.pnp_canal1_contador < self.pnp_canal1_qtd:
+                if self.estado_cor_pnp_1 == self.VERDE:
+                    self.tempo_pnp_decorrido_canal1 += incremento_canal1
+                    self.io.pnp_output(0, 1)
+                    if self.tempo_pnp_decorrido_canal1 >= self.pnp_canal1_ton:
+                        self.tempo_pnp_decorrido_canal1 = 0
                         self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
                         self.estado_cor_pnp_1 = self.CINZA
+                else:
+                    self.tempo_pnp_decorrido_canal1 += incremento_canal1
+                    self.io.pnp_output(0, 0)
+                    if self.tempo_pnp_decorrido_canal1 >= self.pnp_canal1_toff:
+                        self.tempo_pnp_decorrido_canal1 = 0
+                        self.mudar_cor_label("lbPnp_canal_1", self.VERDE)
+                        self.estado_cor_pnp_1 = self.VERDE
 
-                    self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador} de {self.pnp_canal1_qtd}")
+                        self.pnp_canal1_contador += 1  # Incrementa o contador ao finalizar pnp_canal1_toff
+
+                        if self.pnp_canal1_contador >= self.pnp_canal1_qtd + 1:
+                            self.pnp_canal1_contador = self.pnp_canal1_qtd
+                            self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
+                            self.estado_cor_pnp_1 = self.CINZA
+
+                        self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador} de {self.pnp_canal1_qtd}")
+            else:
+                self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
+                self.estado_cor_pnp_1 = self.CINZA
+                self.io.pnp_output(0, 0)
+
 
             # Canal 2
-            if self.estado_cor_pnp_2 == self.VERDE:
-                self.tempo_pnp_decorrido_canal2 += incremento_canal2
-                self.io.pnp_output(1, 1)
-                if self.tempo_pnp_decorrido_canal2 >= self.pnp_canal2_ton:
-                    self.tempo_pnp_decorrido_canal2 = 0
-                    self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
-                    self.estado_cor_pnp_2 = self.CINZA
-            else:
-                self.tempo_pnp_decorrido_canal2 += incremento_canal2
-                self.io.pnp_output(1, 0)
-                if self.tempo_pnp_decorrido_canal2 >= self.pnp_canal2_toff:
-                    self.tempo_pnp_decorrido_canal2 = 0
-                    self.mudar_cor_label("lbPnp_canal_2", self.VERDE)
-                    self.estado_cor_pnp_2 = self.VERDE
-
-                    self.pnp_canal2_contador += 1  # Incrementa o contador ao finalizar pnp_canal2_toff
-
-                    if self.pnp_canal2_contador >= self.pnp_canal2_qtd + 1:
-                        self.pnp_canal2_contador = self.pnp_canal2_qtd
+            if self.pnp_canal2_contador < self.pnp_canal2_qtd:
+                if self.estado_cor_pnp_2 == self.VERDE:
+                    self.tempo_pnp_decorrido_canal2 += incremento_canal2
+                    self.io.pnp_output(1, 1)
+                    if self.tempo_pnp_decorrido_canal2 >= self.pnp_canal2_ton:
+                        self.tempo_pnp_decorrido_canal2 = 0
                         self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
                         self.estado_cor_pnp_2 = self.CINZA
+                else:
+                    self.tempo_pnp_decorrido_canal2 += incremento_canal2
+                    self.io.pnp_output(1, 0)
+                    if self.tempo_pnp_decorrido_canal2 >= self.pnp_canal2_toff:
+                        self.tempo_pnp_decorrido_canal2 = 0
+                        self.mudar_cor_label("lbPnp_canal_2", self.VERDE)
+                        self.estado_cor_pnp_2 = self.VERDE
 
-                    self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador} de {self.pnp_canal2_qtd}")
+                        self.pnp_canal2_contador += 1  # Incrementa o contador ao finalizar pnp_canal2_toff
+
+                        if self.pnp_canal2_contador >= self.pnp_canal2_qtd + 1:
+                            self.pnp_canal2_contador = self.pnp_canal2_qtd
+                            self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
+                            self.estado_cor_pnp_2 = self.CINZA
+
+                        self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador} de {self.pnp_canal2_qtd}")
+            else:
+                self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
+                self.estado_cor_pnp_2 = self.CINZA
+                self.io.pnp_output(1, 0)
 
             # Canal 3
-            if self.estado_cor_pnp_3 == self.VERDE:
-                self.tempo_pnp_decorrido_canal3 += incremento_canal3
-                self.io.pnp_output(2, 1)
-                if self.tempo_pnp_decorrido_canal3 >= self.pnp_canal3_ton:
-                    self.tempo_pnp_decorrido_canal3 = 0
-                    self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
-                    self.estado_cor_pnp_3 = self.CINZA
-            else:
-                self.tempo_pnp_decorrido_canal3 += incremento_canal3
-                self.io.pnp_output(2, 0)
-                if self.tempo_pnp_decorrido_canal3 >= self.pnp_canal3_toff:
-                    self.tempo_pnp_decorrido_canal3 = 0
-                    self.mudar_cor_label("lbPnp_canal_3", self.VERDE)
-                    self.estado_cor_pnp_3 = self.VERDE
-
-                    self.pnp_canal3_contador += 1  # Incrementa o contador ao finalizar pnp_canal3_toff
-
-                    if self.pnp_canal3_contador >= self.pnp_canal3_qtd + 1:
-                        self.pnp_canal3_contador = self.pnp_canal3_qtd
+            if self.pnp_canal3_contador < self.pnp_canal3_qtd:
+                if self.estado_cor_pnp_3 == self.VERDE:
+                    self.tempo_pnp_decorrido_canal3 += incremento_canal3
+                    self.io.pnp_output(2, 1)
+                    if self.tempo_pnp_decorrido_canal3 >= self.pnp_canal3_ton:
+                        self.tempo_pnp_decorrido_canal3 = 0
                         self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
                         self.estado_cor_pnp_3 = self.CINZA
+                else:
+                    self.tempo_pnp_decorrido_canal3 += incremento_canal3
+                    self.io.pnp_output(2, 0)
+                    if self.tempo_pnp_decorrido_canal3 >= self.pnp_canal3_toff:
+                        self.tempo_pnp_decorrido_canal3 = 0
+                        self.mudar_cor_label("lbPnp_canal_3", self.VERDE)
+                        self.estado_cor_pnp_3 = self.VERDE
 
-                    self.mudar_texto_label("lbPnp_qdt_3", f"{self.pnp_canal3_contador} de {self.pnp_canal3_qtd}")
+                        self.pnp_canal3_contador += 1  # Incrementa o contador ao finalizar pnp_canal3_toff
+
+                        if self.pnp_canal3_contador >= self.pnp_canal3_qtd + 1:
+                            self.pnp_canal3_contador = self.pnp_canal3_qtd
+                            self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
+                            self.estado_cor_pnp_3 = self.CINZA
+
+                        self.mudar_texto_label("lbPnp_qdt_3", f"{self.pnp_canal3_contador} de {self.pnp_canal3_qtd}")
+            else:
+                self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
+                self.estado_cor_pnp_3 = self.CINZA
+                self.io.pnp_output(2, 0)
 
             # Canal 4
-            if self.estado_ligado_canal4_pnp:
-                if self.estado_cor_pnp_4 == self.VERDE:
-                    self.tempo_pnp_decorrido_canal4 += incremento_canal4
-                    self.io.pnp_output(3, 1)
-                    if self.tempo_pnp_decorrido_canal4 >= ton_pwm:
-                        self.tempo_pnp_decorrido_canal4 = 0
-                        self.mudar_cor_label("lbPnp_canal_4", self.CINZA)
-                        self.estado_cor_pnp_4 = self.CINZA
+            if self.pnp_canal4_contador < self.pnp_canal4_qtd + 1:
+                if self.estado_ligado_canal4_pnp:
+                    if self.estado_cor_pnp_4 == self.VERDE:
+                        self.tempo_pnp_decorrido_canal4 += incremento_canal4
+                        self.io.pnp_output(3, 1)
+                        if self.tempo_pnp_decorrido_canal4 >= ton_pwm:
+                            self.tempo_pnp_decorrido_canal4 = 0
+                            self.mudar_cor_label("lbPnp_canal_4", self.CINZA)
+                            self.estado_cor_pnp_4 = self.CINZA
+                    else:
+                        self.tempo_pnp_decorrido_canal4 += incremento_canal4
+                        self.io.pnp_output(3, 0)
+                        if self.tempo_pnp_decorrido_canal4 >= toff_pwm:
+                            self.tempo_pnp_decorrido_canal4 = 0
+                            self.mudar_cor_label("lbPnp_canal_4", self.VERDE)
+                            self.estado_cor_pnp_4 = self.VERDE
+
+                    self.tempo_ligado_canal4_pnp += incremento_canal4
+                    if self.tempo_ligado_canal4_pnp >= self.pnp_canal4_ton * 60:  # Convertendo minutos para segundos
+                        self.tempo_ligado_canal4_pnp = 0
+                        self.estado_ligado_canal4_pnp = False
+                        
+                        if self.pnp_canal4_contador >= self.pnp_canal4_qtd + 1:
+                            self.pnp_canal4_contador = self.pnp_canal4_qtd
+                            self.mudar_cor_label("lbPnp_canal_4", self.CINZA)
+                            self.estado_cor_pnp_4 = self.CINZA
+
+                    self.mudar_texto_label("lbPnp_qdt_4", f"{self.pnp_canal4_contador} de {self.pnp_canal4_qtd}")
                 else:
-                    self.tempo_pnp_decorrido_canal4 += incremento_canal4
+                    self.tempo_desligado_canal4_pnp += incremento_canal4
+                    if self.tempo_desligado_canal4_pnp >= self.pnp_canal4_toff * 60:  # Convertendo minutos para segundos
+                        self.tempo_desligado_canal4_pnp = 0
+                        self.estado_ligado_canal4_pnp = True
+                        self.pnp_canal4_contador += 1  # Incrementa o contador ao finalizar o tempo ligado
+
+                    self.mudar_cor_label("lbPnp_canal_4", self.CINZA)
+                    self.estado_cor_pnp_4 = self.CINZA
                     self.io.pnp_output(3, 0)
-                    if self.tempo_pnp_decorrido_canal4 >= toff_pwm:
-                        self.tempo_pnp_decorrido_canal4 = 0
-                        self.mudar_cor_label("lbPnp_canal_4", self.VERDE)
-                        self.estado_cor_pnp_4 = self.VERDE
-
-                self.tempo_ligado_canal4_pnp += incremento_canal4
-                if self.tempo_ligado_canal4_pnp >= self.pnp_canal4_ton * 60:  # Convertendo minutos para segundos
-                    self.tempo_ligado_canal4_pnp = 0
-                    self.estado_ligado_canal4_pnp = False
-                    
-                    if self.pnp_canal4_contador >= self.pnp_canal4_qtd + 1:
-                        self.pnp_canal4_contador = self.pnp_canal4_qtd
-                        self.mudar_cor_label("lbPnp_canal_4", self.CINZA)
-                        self.estado_cor_pnp_4 = self.CINZA
-
-                self.mudar_texto_label("lbPnp_qdt_4", f"{self.pnp_canal4_contador} de {self.pnp_canal4_qtd}")
             else:
-                self.tempo_desligado_canal4_pnp += incremento_canal4
-                if self.tempo_desligado_canal4_pnp >= self.pnp_canal4_toff * 60:  # Convertendo minutos para segundos
-                    self.tempo_desligado_canal4_pnp = 0
-                    self.estado_ligado_canal4_pnp = True
-                    self.pnp_canal4_contador += 1  # Incrementa o contador ao finalizar o tempo ligado
-
                 self.mudar_cor_label("lbPnp_canal_4", self.CINZA)
                 self.estado_cor_pnp_4 = self.CINZA
                 self.io.pnp_output(3, 0)
@@ -558,7 +647,6 @@ class Execucao(QDialog):
 
         if self.pnp_canal1_contador >= self.pnp_canal1_qtd and self.pnp_canal2_contador >= self.pnp_canal2_qtd and self.pnp_canal3_contador >= self.pnp_canal3_qtd and self.pnp_canal4_contador >= self.pnp_canal4_qtd + 1:
             self.iniciado_pnp = False
-            self.ui.btIniciarPausar.setText("Iniciar")
 
             self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador} de {self.pnp_canal1_qtd}")
             self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador} de {self.pnp_canal2_qtd}")
@@ -596,7 +684,7 @@ class Execucao(QDialog):
             return
     
         if self.rele_habilita_desabilita == 1 and self.iniciado_rele and self.fim_rele==False:
-            self.ui.lbNomeProg.setText(f"{self.nome_programa}: Executando")
+            self.oscila_executando()
             incremento_canal1 = 0.1 if self.rele_base_tempo == 0 else 0.1 / 60  # Incrementa em 0.1 segundos ou 0.1 minutos
             incremento_canal2 = 0.1 if self.rele_base_tempo == 0 else 0.1 / 60
             incremento_canal3 = 0.1 if self.rele_base_tempo == 0 else 0.1 / 60
@@ -712,7 +800,6 @@ class Execucao(QDialog):
     
         if self.rele_canal1_contador >= self.rele_canal1_qtd and self.rele_canal2_contador >= self.rele_canal2_qtd and self.rele_canal3_contador >= self.rele_canal3_qtd and self.rele_canal4_contador >= self.rele_canal4_qtd:
             self.iniciado_rele = False
-            self.ui.btIniciarPausar.setText("Iniciar")
     
             self.mudar_texto_label("lbRele_qdt_1", f"{self.rele_canal1_contador} de {self.rele_canal1_qtd}")
             self.mudar_texto_label("lbRele_qdt_2", f"{self.rele_canal2_contador} de {self.rele_canal2_qtd}")
@@ -744,6 +831,17 @@ class Execucao(QDialog):
             self.estado_cor_rele_4 = self.CINZA
     
             self.fim_rele = True  # Indica que o programa RELE terminou
+
+    def oscila_executando(self):
+        self.oscila_msg = not self.oscila_msg
+        if self.cnt_osciala < 20:
+            self.cnt_osciala += 1
+            self.ui.lbNomeProg.setText(f"{self.nome_programa}: Executando")
+        elif self.cnt_osciala < 20+10:
+            self.cnt_osciala += 1
+            self.ui.lbNomeProg.setText(f"{self.nome_programa}: ")
+        else:
+            self.cnt_osciala = 0
 
     def mudar_cor_label(self, label_name, cor):
         label = getattr(self.ui, label_name, None)
