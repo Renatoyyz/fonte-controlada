@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>13</y>
+     <y>33</y>
      <width>90</width>
      <height>190</height>
     </rect>
@@ -112,7 +112,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>13</y>
+     <y>33</y>
      <width>90</width>
      <height>190</height>
     </rect>
@@ -194,7 +194,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>13</y>
+     <y>33</y>
      <width>90</width>
      <height>190</height>
     </rect>
@@ -288,9 +288,9 @@
   <widget class="QCheckBox" name="ckbHabilitaModulo">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>250</y>
-     <width>120</width>
+     <x>150</x>
+     <y>270</y>
+     <width>160</width>
      <height>20</height>
     </rect>
    </property>
@@ -302,20 +302,20 @@
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>220</y>
+     <y>240</y>
      <width>120</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Base Minutos</string>
+    <string>Base min.</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>13</y>
+     <y>33</y>
      <width>90</width>
      <height>190</height>
     </rect>
@@ -397,13 +397,13 @@
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>220</y>
+     <y>240</y>
      <width>120</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Base Segundos</string>
+    <string>Base seg.</string>
    </property>
    <property name="checked">
     <bool>true</bool>

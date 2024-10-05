@@ -11,7 +11,7 @@ class ViewProgramas(QDialog):
         self.nome_programa = None
 
         self.setWindowTitle("Programas")
-        self.setGeometry(100, 100, 480, 320)
+        self.setGeometry(0, 0, 480, 320)
         
         self.layout = QVBoxLayout()
         self.table = QTableWidget()
@@ -40,6 +40,8 @@ class ViewProgramas(QDialog):
             QMessageBox.warning(self, "Aviso", "Nenhum programa encontrado.")
             return
         
+        self.table.setColumnWidth(0, 240)
+
         self.table.setRowCount(len(programs))
         self.table.setColumnCount(1)  # Apenas uma coluna para o nome do programa
         self.table.setHorizontalHeaderLabels(["Nome Programa"])
