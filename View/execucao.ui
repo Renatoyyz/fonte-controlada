@@ -273,9 +273,9 @@
   <widget class="QLabel" name="lbNomeProg">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>60</x>
      <y>8</y>
-     <width>150</width>
+     <width>340</width>
      <height>20</height>
     </rect>
    </property>

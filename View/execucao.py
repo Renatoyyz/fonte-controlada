@@ -91,7 +91,7 @@ class Ui_frmExecucao(object):
         self.label_3.setGeometry(QtCore.QRect(20, 220, 60, 16))
         self.label_3.setObjectName("label_3")
         self.lbNomeProg = QtWidgets.QLabel(frmExecucao)
-        self.lbNomeProg.setGeometry(QtCore.QRect(170, 8, 150, 20))
+        self.lbNomeProg.setGeometry(QtCore.QRect(60, 8, 340, 20))
         self.lbNomeProg.setObjectName("lbNomeProg")
         self.lbNpn_qdt_1 = QtWidgets.QLabel(frmExecucao)
         self.lbNpn_qdt_1.setGeometry(QtCore.QRect(80, 70, 80, 16))
