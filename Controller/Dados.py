@@ -3,7 +3,7 @@ import time
 
 class Dado:
     def __init__(self):
-        self.full_scream = False
+        self.full_scream = True
         self.CANAL_NPN = 0
         self.CANAL_PNP = 1
         self.CANAL_RELAY = 2

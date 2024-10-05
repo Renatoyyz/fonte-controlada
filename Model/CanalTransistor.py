@@ -49,11 +49,11 @@ class CanalTransistor(QDialog):
 
     def config(self):
         if self.npn_pnp == self.dado.CANAL_NPN:
-            self.ui.lbTipoCanal.setText("Canal Transistor NPN")
+            self.ui.lbTipoCanal.setText("Transistor NPN")
             self.prog = self.dado.resgata_programa_tupla()
             start_index = 17
         else:
-            self.ui.lbTipoCanal.setText("Canal Transistor PNP")
+            self.ui.lbTipoCanal.setText("Transistor PNP")
             self.prog = self.dado.resgata_programa_tupla()
             start_index = 1
 
