@@ -92,3 +92,26 @@ Exec=/usr/bin/python /home/maeda/choque-termico/main.py
 ```
 
 O diretório /usr/bin/pythyon é onde está instalado o python,normalmente no raspberry esse é o local padrão.
+
+```
+4 - Instalar o pacote para o LCD:
+    a) Faca o clone: git clone https://github.com/goodtft/LCD-show.git
+    b) chmod -R 755 LCD-show
+    não execute o comando que habilita o LCD ainda
+    link com tutorial: http://www.lcdwiki.com/3.5inch_RPi_Display
+
+6 - Agora vá até o diretório onde foi baixado os arquivos do LCD-show:
+    a) cd /home/pi/LCD-show/
+    b) sudo ./LCD35-show
+    executando esse último comando o sistema irá reiniciar agora com o LCD e a aplicação rodando
+7 - Para sair do modo LCD-show tem que, com o teclado, apertar crtl+alt e esc ou F1 até aparecer o console, 
+    depois digite LCD-hdmi. O sistema vai reiniciar e voltar com o monitor mais a aplicação. Se quiser 
+    parar a aplicação abra um terminal - ctrl+alt+T e digite "ps axf" abrirá as execuções. Na coluna 
+    comando procure bin/python3 e veja o número do PID em seguida execute sudo kill e o número do PID.
+    
+8 - Para desativar desligamneto de tela do raspberry
+    Abra um terminal e instale o pacote xscreen no raspberry:
+       sudo apt-get install xscreenserver
+    Fazendo isso vá no menu do raspberry(canto superior esquerdo), preferencias e protetor de tela.
+    Quando abrir a janela, vá em modo e desativar protetor de tela
+```
