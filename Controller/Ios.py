@@ -85,5 +85,9 @@ class InOut:
             GPIO.output(self.PNP_OUTPUTS[index], estado)
 
     def relay_output(self, index, estado):
+        if estado == 1:
+            estado = 0
+        else:
+            estado = 1
         if 0 <= index < len(self.RELAY_OUTPUTS):
             GPIO.output(self.RELAY_OUTPUTS[index], estado)
