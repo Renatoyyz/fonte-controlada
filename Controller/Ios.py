@@ -62,10 +62,10 @@ class InOut:
         self.PNP_OUTPUTS = [19, 16, 26, 20]
         self.RELAY_OUTPUTS = [21, 4, 22, 23]
         
-        GPIO.setup(self.BUZZER, GPIO.OUT)
         GPIO.setmode(GPIO.BCM) 
         GPIO.setwarnings(False)
         
+        GPIO.setup(self.BUZZER, GPIO.OUT)
         for pin in self.NPN_OUTPUTS + self.PNP_OUTPUTS + self.RELAY_OUTPUTS:
             GPIO.setup(pin, GPIO.OUT)
 
