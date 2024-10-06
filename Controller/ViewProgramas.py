@@ -12,6 +12,7 @@ class ViewProgramas(QDialog):
 
         self.setWindowTitle("Programas")
         self.setGeometry(0, 0, 480, 320)
+        # self.resize(480, 320)
         
         self.layout = QVBoxLayout()
         self.table = QTableWidget()
