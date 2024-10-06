@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QMainWindow, QDialog
 from PyQt5.QtCore import Qt
@@ -75,3 +75,9 @@ class TesteSaidas(QDialog):
             print(f"Tipo: {3}\nCanal: {i}\nStatus: {0}")
             self.io.relay_output(i, 0)
         event.accept()
+
+    def enterEvent(self, event):
+        if self.dado.mouse_pointer:
+            QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
+            self.setCursor(QtCore.Qt.BlankCursor)
+            super().enterEvent(event)

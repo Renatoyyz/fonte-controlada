@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox
 from PyQt5.QtCore import Qt
 
@@ -196,6 +196,11 @@ class CanalRele(QDialog):
         )
         self.dado.salva_programa_tupla(self.prog)
         self.close()
+    def enterEvent(self, event):
+        if self.dado.mouse_pointer:
+            QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
+            self.setCursor(QtCore.Qt.BlankCursor)
+            super().enterEvent(event)
 
 
     def voltar(self):

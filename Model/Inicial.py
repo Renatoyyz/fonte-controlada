@@ -1,6 +1,7 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox
 from PyQt5.QtCore import Qt
+
 
 from View.menu import Ui_frmMainMenu
 from Controller.ViewProgramas import ViewProgramas
@@ -44,6 +45,12 @@ class MainMenu(QMainWindow):
         self.ui.btTestOutRelay.clicked.connect(lambda: self.teste_saida(3))
 
         self.ui.btInitProg.clicked.connect(self.iniciar_programa)
+
+    def enterEvent(self, event):
+        if self.dado.mouse_pointer:
+            QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
+            self.setCursor(QtCore.Qt.BlankCursor)
+            super().enterEvent(event)
 
     def teste_saida(self, tipo_saida):
         tela_npn = TesteSaidas(dado=self.dado, io=self.io, db=self.database, tipo_saida=tipo_saida)

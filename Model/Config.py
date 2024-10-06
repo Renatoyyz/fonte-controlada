@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from PyQt5.QtCore import Qt
 
@@ -146,3 +146,9 @@ class Config(QDialog):
 
     def closeEvent(self, event):
         event.accept()
+
+    def enterEvent(self, event):
+        if self.dado.mouse_pointer:
+            QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
+            self.setCursor(QtCore.Qt.BlankCursor)
+            super().enterEvent(event)

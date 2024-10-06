@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QTableWidget, QTableWidgetItem, QMessageBox, QPushButton
-from PyQt5.QtCore import Qt
+from PyQt5 import QtGui, QtCore
 
 class ViewProgramas(QDialog):
     def __init__(self, dado=None, io=None, db=None):
@@ -24,12 +24,12 @@ class ViewProgramas(QDialog):
         
         self.setLayout(self.layout)
 
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+        self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
 
         # Maximizar a janela
         # self.showMaximized()
         if self.dado.full_scream == True:
-            self.setWindowState(Qt.WindowState.WindowFullScreen)
+            self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
         
         self.load_data()
         
@@ -57,6 +57,12 @@ class ViewProgramas(QDialog):
 
     def closeEvent(self, event):
         event.accept()
+
+    def enterEvent(self, event):
+        if self.dado.mouse_pointer:
+            QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
+            self.setCursor(QtCore.Qt.BlankCursor)
+        super().enterEvent(event)
 
 if __name__ == "__main__":
     from Dados import Dado
