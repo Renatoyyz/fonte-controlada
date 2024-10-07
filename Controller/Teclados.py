@@ -7,7 +7,7 @@ class AlphanumericKeyboard(QDialog):
         super().__init__()
         self.dado = dado
         self.setWindowTitle("Teclado Alfanumérico")
-        self.setGeometry(0, 0, 480, 320)
+        self.setGeometry(0, 0, 320, 480)
         # self.resize(480, 320)  # Definir as dimensões da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
@@ -17,8 +17,8 @@ class AlphanumericKeyboard(QDialog):
         # Remover a barra de título e ocultar os botões de maximizar e minimizar
         self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         
-        # if self.dado and self.dado.full_scream:
-        #     self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
+        if self.dado and self.dado.full_scream:
+            self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
 
         self.buttons = [
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
@@ -59,7 +59,7 @@ class NumericKeyboard(QDialog):
         self.dado = dado
         self.type = type
         self.setWindowTitle("Teclado Numérico")
-        self.setGeometry(0, 0, 480, 320)
+        self.setGeometry(0, 0, 320, 480)
         # self.resize(480, 320)  # Definir as dimensões da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
@@ -67,8 +67,8 @@ class NumericKeyboard(QDialog):
         # Remover a barra de título e ocultar os botões de maximizar e minimizar
         self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         
-        # if self.dado and self.dado.full_scream:
-        #     self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
+        if self.dado and self.dado.full_scream:
+            self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
 
         if self.type == "password":
             self.line_edit.setEchoMode(QtWidgets.QLineEdit.Password)
