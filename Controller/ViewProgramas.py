@@ -40,16 +40,16 @@ class ViewProgramas(QDialog):
         if not programs:
             QMessageBox.warning(self, "Aviso", "Nenhum programa encontrado.")
             return
-        
-        self.table.setColumnWidth(0, 240)
 
         self.table.setRowCount(len(programs))
         self.table.setColumnCount(1)  # Apenas uma coluna para o nome do programa
         self.table.setHorizontalHeaderLabels(["Nome Programa"])
-        
+
         for row_idx, program in enumerate(programs):
             self.table.setItem(row_idx, 0, QTableWidgetItem(program[1]))  # Assumindo que o nome do programa está na segunda coluna
-    
+
+        self.table.resizeColumnsToContents()  # Ajusta a largura da coluna para caber no conteúdoself.table.setItem(row_idx, 0, QTableWidgetItem(program[1]))  # Assumindo que o nome do programa está na segunda coluna
+        
     def cell_was_clicked(self, row, column):
         self.nome_programa = self.table.item(row, 0).text()
         # QMessageBox.information(self, "Programa Selecionado", f"Nome do Programa: {program_name}")
