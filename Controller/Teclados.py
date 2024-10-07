@@ -17,8 +17,8 @@ class AlphanumericKeyboard(QDialog):
         # Remover a barra de título e ocultar os botões de maximizar e minimizar
         self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         
-        if self.dado and self.dado.full_scream:
-            self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
+        # if self.dado and self.dado.full_scream:
+        #     self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
 
         self.buttons = [
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
@@ -67,8 +67,8 @@ class NumericKeyboard(QDialog):
         # Remover a barra de título e ocultar os botões de maximizar e minimizar
         self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         
-        if self.dado and self.dado.full_scream:
-            self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
+        # if self.dado and self.dado.full_scream:
+        #     self.setWindowState(QtCore.Qt.WindowState.WindowFullScreen)
 
         if self.type == "password":
             self.line_edit.setEchoMode(QtWidgets.QLineEdit.Password)
