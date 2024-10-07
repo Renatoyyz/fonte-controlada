@@ -7,8 +7,9 @@ class AlphanumericKeyboard(QDialog):
         super().__init__()
         self.dado = dado
         self.setWindowTitle("Teclado Alfanumérico")
-        self.setGeometry(0, 0, 320, 480)
-        # self.resize(480, 320)  # Definir as dimensões da janela
+        self.setGeometry(0, 0, 480, 320)
+        self.setMinimumSize(100, 50)  # Definir as dimensões mínimas da janela
+        self.setMaximumSize(480, 320)  # Definir as dimensões máximas da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
         self.layout.addWidget(self.line_edit)
@@ -53,14 +54,18 @@ class AlphanumericKeyboard(QDialog):
     def on_ok_click(self):
         self.close()
 
+    def closeEvent(self, event):
+        event.accept()
+
 class NumericKeyboard(QDialog):
     def __init__(self, dado=None, type="password"):
         super().__init__()
         self.dado = dado
         self.type = type
         self.setWindowTitle("Teclado Numérico")
-        self.setGeometry(0, 0, 320, 480)
-        # self.resize(480, 320)  # Definir as dimensões da janela
+        self.setGeometry(0, 0, 480, 320)
+        self.setMinimumSize(100, 50)  # Definir as dimensões mínimas da janela
+        self.setMaximumSize(480, 320)  # Definir as dimensões máximas da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
 
@@ -116,6 +121,8 @@ class NumericKeyboard(QDialog):
         if self.line_edit.text() != "":
             pass
         self.close()
+    def closeEvent(self, event):
+        event.accept()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
