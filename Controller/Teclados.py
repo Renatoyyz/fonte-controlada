@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QPushButton, QLineEdit, QGridLayout, QDialog
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 class AlphanumericKeyboard(QDialog):
     def __init__(self, dado=None):
@@ -56,6 +56,13 @@ class AlphanumericKeyboard(QDialog):
 
     def closeEvent(self, event):
         event.accept()
+
+    def enterEvent(self, event):
+        if self.dado.mouse_pointer:
+            QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
+            self.setCursor(QtCore.Qt.BlankCursor)
+            super().enterEvent(event)
+
 
 class NumericKeyboard(QDialog):
     def __init__(self, dado=None, type="password"):
@@ -123,6 +130,13 @@ class NumericKeyboard(QDialog):
         self.close()
     def closeEvent(self, event):
         event.accept()
+
+    def enterEvent(self, event):
+        if self.dado.mouse_pointer:
+            QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
+            self.setCursor(QtCore.Qt.BlankCursor)
+            super().enterEvent(event)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
