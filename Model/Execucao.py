@@ -312,7 +312,7 @@ class Execucao(QDialog):
             toff_pwm = self.npn_pwm_periodo_canal4 - ton_pwm
 
             # Canal 1
-            if self.npn_canal1_contador < self.npn_canal1_qtd:
+            if self.npn_canal1_contador < self.npn_canal1_qtd+1:
                 if self.estado_cor_npn_1 == self.VERDE:
                     self.tempo_npn_decorrido_canal1 += incremento_canal1
                     self.io.npn_output(0, 1)
@@ -328,7 +328,6 @@ class Execucao(QDialog):
                         self.mudar_cor_label("lbNpn_canal_1", self.VERDE)
                         self.estado_cor_npn_1 = self.VERDE
 
-                        self.npn_canal1_contador += 1  # Incrementa o contador ao finalizar npn_canal1_toff
 
                         if self.npn_canal1_contador >= self.npn_canal1_qtd+1:
                             self.npn_canal1_contador = self.npn_canal1_qtd
@@ -336,13 +335,14 @@ class Execucao(QDialog):
                             self.estado_cor_npn_1 = self.CINZA
             
                         self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador} de {self.npn_canal1_qtd}")
+                        self.npn_canal1_contador += 1  # Incrementa o contador ao finalizar npn_canal1_toff
             else:
                 self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
                 self.estado_cor_npn_1 = self.CINZA
                 self.io.npn_output(0, 0)
 
             # Canal 2
-            if self.npn_canal2_contador < self.npn_canal2_qtd:
+            if self.npn_canal2_contador < self.npn_canal2_qtd+1:
                 if self.estado_cor_npn_2 == self.VERDE:
                     self.tempo_npn_decorrido_canal2 += incremento_canal2
                     self.io.npn_output(1, 1)
@@ -358,7 +358,6 @@ class Execucao(QDialog):
                         self.mudar_cor_label("lbNpn_canal_2", self.VERDE)
                         self.estado_cor_npn_2 = self.VERDE
 
-                        self.npn_canal2_contador += 1  # Incrementa o contador ao finalizar npn_canal2_toff
 
                         if self.npn_canal2_contador >= self.npn_canal2_qtd+1:
                             self.npn_canal2_contador = self.npn_canal2_qtd
@@ -366,13 +365,14 @@ class Execucao(QDialog):
                             self.estado_cor_npn_2 = self.CINZA
             
                         self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador} de {self.npn_canal2_qtd}")
+                        self.npn_canal2_contador += 1  # Incrementa o contador ao finalizar npn_canal2_toff
             else:
                 self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
                 self.estado_cor_npn_2 = self.CINZA
                 self.io.npn_output(1, 0)
 
             # Canal 3
-            if self.npn_canal3_contador < self.npn_canal3_qtd:
+            if self.npn_canal3_contador < self.npn_canal3_qtd+1:
                 if self.estado_cor_npn_3 == self.VERDE:
                     self.tempo_npn_decorrido_canal3 += incremento_canal3
                     self.io.npn_output(2, 1)
@@ -388,7 +388,6 @@ class Execucao(QDialog):
                         self.mudar_cor_label("lbNpn_canal_3", self.VERDE)
                         self.estado_cor_npn_3 = self.VERDE
 
-                        self.npn_canal3_contador += 1  # Incrementa o contador ao finalizar npn_canal3_toff
 
                         if self.npn_canal3_contador >= self.npn_canal3_qtd+1:
                             self.npn_canal3_contador = self.npn_canal3_qtd
@@ -396,6 +395,7 @@ class Execucao(QDialog):
                             self.estado_cor_npn_3 = self.CINZA
             
                         self.mudar_texto_label("lbNpn_qdt_3", f"{self.npn_canal3_contador} de {self.npn_canal3_qtd}")
+                        self.npn_canal3_contador += 1  # Incrementa o contador ao finalizar npn_canal3_toff
             else:
                 self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
                 self.estado_cor_npn_3 = self.CINZA
@@ -454,12 +454,12 @@ class Execucao(QDialog):
 
             self.ui.lbNomeProg.setText(f"{self.nome_programa}: Parado")
 
-        if self.npn_canal1_contador >= self.npn_canal1_qtd and self.npn_canal2_contador >= self.npn_canal2_qtd and self.npn_canal3_contador >= self.npn_canal3_qtd and self.npn_canal4_contador >= self.npn_canal4_qtd+1:
+        if self.npn_canal1_contador >= self.npn_canal1_qtd+1 and self.npn_canal2_contador  >= self.npn_canal2_qtd+1 and self.npn_canal3_contador >= self.npn_canal3_qtd+1 and self.npn_canal4_contador >= self.npn_canal4_qtd+1:
             self.iniciado_npn = False
 
-            self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador} de {self.npn_canal1_qtd}")
-            self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador} de {self.npn_canal2_qtd}")
-            self.mudar_texto_label("lbNpn_qdt_3", f"{self.npn_canal3_contador} de {self.npn_canal3_qtd}")
+            self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador-1} de {self.npn_canal1_qtd}")
+            self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador-1} de {self.npn_canal2_qtd}")
+            self.mudar_texto_label("lbNpn_qdt_3", f"{self.npn_canal3_contador-1} de {self.npn_canal3_qtd}")
             self.mudar_texto_label("lbNpn_qdt_4", f"{self.npn_canal4_contador-1} de {self.npn_canal4_qtd}")   
 
             self.tempo_npn_decorrido_canal1 = 0
@@ -503,7 +503,7 @@ class Execucao(QDialog):
             toff_pwm = self.pnp_pwm_periodo_canal4 - ton_pwm
 
             # Canal 1
-            if self.pnp_canal1_contador < self.pnp_canal1_qtd:
+            if self.pnp_canal1_contador < self.pnp_canal1_qtd+1:
                 if self.estado_cor_pnp_1 == self.VERDE:
                     self.tempo_pnp_decorrido_canal1 += incremento_canal1
                     self.io.pnp_output(0, 1)
@@ -519,7 +519,6 @@ class Execucao(QDialog):
                         self.mudar_cor_label("lbPnp_canal_1", self.VERDE)
                         self.estado_cor_pnp_1 = self.VERDE
 
-                        self.pnp_canal1_contador += 1  # Incrementa o contador ao finalizar pnp_canal1_toff
 
                         if self.pnp_canal1_contador >= self.pnp_canal1_qtd + 1:
                             self.pnp_canal1_contador = self.pnp_canal1_qtd
@@ -527,6 +526,7 @@ class Execucao(QDialog):
                             self.estado_cor_pnp_1 = self.CINZA
 
                         self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador} de {self.pnp_canal1_qtd}")
+                        self.pnp_canal1_contador += 1  # Incrementa o contador ao finalizar pnp_canal1_toff
             else:
                 self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
                 self.estado_cor_pnp_1 = self.CINZA
@@ -534,7 +534,7 @@ class Execucao(QDialog):
 
 
             # Canal 2
-            if self.pnp_canal2_contador < self.pnp_canal2_qtd:
+            if self.pnp_canal2_contador < self.pnp_canal2_qtd+1:
                 if self.estado_cor_pnp_2 == self.VERDE:
                     self.tempo_pnp_decorrido_canal2 += incremento_canal2
                     self.io.pnp_output(1, 1)
@@ -550,7 +550,6 @@ class Execucao(QDialog):
                         self.mudar_cor_label("lbPnp_canal_2", self.VERDE)
                         self.estado_cor_pnp_2 = self.VERDE
 
-                        self.pnp_canal2_contador += 1  # Incrementa o contador ao finalizar pnp_canal2_toff
 
                         if self.pnp_canal2_contador >= self.pnp_canal2_qtd + 1:
                             self.pnp_canal2_contador = self.pnp_canal2_qtd
@@ -558,13 +557,14 @@ class Execucao(QDialog):
                             self.estado_cor_pnp_2 = self.CINZA
 
                         self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador} de {self.pnp_canal2_qtd}")
+                        self.pnp_canal2_contador += 1  # Incrementa o contador ao finalizar pnp_canal2_toff
             else:
                 self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
                 self.estado_cor_pnp_2 = self.CINZA
                 self.io.pnp_output(1, 0)
 
             # Canal 3
-            if self.pnp_canal3_contador < self.pnp_canal3_qtd:
+            if self.pnp_canal3_contador < self.pnp_canal3_qtd+1:
                 if self.estado_cor_pnp_3 == self.VERDE:
                     self.tempo_pnp_decorrido_canal3 += incremento_canal3
                     self.io.pnp_output(2, 1)
@@ -580,7 +580,6 @@ class Execucao(QDialog):
                         self.mudar_cor_label("lbPnp_canal_3", self.VERDE)
                         self.estado_cor_pnp_3 = self.VERDE
 
-                        self.pnp_canal3_contador += 1  # Incrementa o contador ao finalizar pnp_canal3_toff
 
                         if self.pnp_canal3_contador >= self.pnp_canal3_qtd + 1:
                             self.pnp_canal3_contador = self.pnp_canal3_qtd
@@ -588,6 +587,7 @@ class Execucao(QDialog):
                             self.estado_cor_pnp_3 = self.CINZA
 
                         self.mudar_texto_label("lbPnp_qdt_3", f"{self.pnp_canal3_contador} de {self.pnp_canal3_qtd}")
+                        self.pnp_canal3_contador += 1  # Incrementa o contador ao finalizar pnp_canal3_toff
             else:
                 self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
                 self.estado_cor_pnp_3 = self.CINZA
@@ -645,12 +645,12 @@ class Execucao(QDialog):
 
             self.ui.lbNomeProg.setText(f"{self.nome_programa}: Parado")
 
-        if self.pnp_canal1_contador >= self.pnp_canal1_qtd and self.pnp_canal2_contador >= self.pnp_canal2_qtd and self.pnp_canal3_contador >= self.pnp_canal3_qtd and self.pnp_canal4_contador >= self.pnp_canal4_qtd + 1:
+        if self.pnp_canal1_contador >= self.pnp_canal1_qtd+1 and self.pnp_canal2_contador >= self.pnp_canal2_qtd+1 and self.pnp_canal3_contador >= self.pnp_canal3_qtd+1 and self.pnp_canal4_contador >= self.pnp_canal4_qtd + 1:
             self.iniciado_pnp = False
 
-            self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador} de {self.pnp_canal1_qtd}")
-            self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador} de {self.pnp_canal2_qtd}")
-            self.mudar_texto_label("lbPnp_qdt_3", f"{self.pnp_canal3_contador} de {self.pnp_canal3_qtd}")
+            self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador-1} de {self.pnp_canal1_qtd}")
+            self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador-1} de {self.pnp_canal2_qtd}")
+            self.mudar_texto_label("lbPnp_qdt_3", f"{self.pnp_canal3_contador-1} de {self.pnp_canal3_qtd}")
             self.mudar_texto_label("lbPnp_qdt_4", f"{self.pnp_canal4_contador - 1} de {self.pnp_canal4_qtd}")
 
             self.tempo_pnp_decorrido_canal1 = 0
@@ -706,13 +706,13 @@ class Execucao(QDialog):
                     self.mudar_cor_label("lbRele_canal_1", self.VERDE)
                     self.estado_cor_rele_1 = self.VERDE
     
-                    self.rele_canal1_contador += 1  # Incrementa o contador ao finalizar rele_canal1_toff
     
                     if self.rele_canal1_contador >= self.rele_canal1_qtd+1:
                         self.rele_canal1_contador = self.rele_canal1_qtd
                         self.mudar_cor_label("lbRele_canal_1", self.CINZA)
                         self.estado_cor_rele_1 = self.CINZA
         
+                    self.rele_canal1_contador += 1  # Incrementa o contador ao finalizar rele_canal1_toff
                     self.mudar_texto_label("lbRele_qdt_1", f"{self.rele_canal1_contador} de {self.rele_canal1_qtd}")
     
             # Canal 2
@@ -731,13 +731,13 @@ class Execucao(QDialog):
                     self.mudar_cor_label("lbRele_canal_2", self.VERDE)
                     self.estado_cor_rele_2 = self.VERDE
     
-                    self.rele_canal2_contador += 1  # Incrementa o contador ao finalizar rele_canal2_toff
     
                     if self.rele_canal2_contador >= self.rele_canal2_qtd+1:
                         self.rele_canal2_contador = self.rele_canal2_qtd
                         self.mudar_cor_label("lbRele_canal_2", self.CINZA)
                         self.estado_cor_rele_2 = self.CINZA
         
+                    self.rele_canal2_contador += 1  # Incrementa o contador ao finalizar rele_canal2_toff
                     self.mudar_texto_label("lbRele_qdt_2", f"{self.rele_canal2_contador} de {self.rele_canal2_qtd}")
     
             # Canal 3
@@ -756,13 +756,13 @@ class Execucao(QDialog):
                     self.mudar_cor_label("lbRele_canal_3", self.VERDE)
                     self.estado_cor_rele_3 = self.VERDE
     
-                    self.rele_canal3_contador += 1  # Incrementa o contador ao finalizar rele_canal3_toff
     
                     if self.rele_canal3_contador >= self.rele_canal3_qtd+1:
                         self.rele_canal3_contador = self.rele_canal3_qtd
                         self.mudar_cor_label("lbRele_canal_3", self.CINZA)
                         self.estado_cor_rele_3 = self.CINZA
         
+                    self.rele_canal3_contador += 1  # Incrementa o contador ao finalizar rele_canal3_toff
                     self.mudar_texto_label("lbRele_qdt_3", f"{self.rele_canal3_contador} de {self.rele_canal3_qtd}")
     
             # Canal 4
@@ -781,13 +781,13 @@ class Execucao(QDialog):
                     self.mudar_cor_label("lbRele_canal_4", self.VERDE)
                     self.estado_cor_rele_4 = self.VERDE
     
-                    self.rele_canal4_contador += 1  # Incrementa o contador ao finalizar rele_canal4_toff
     
                     if self.rele_canal4_contador >= self.rele_canal4_qtd+1:
                         self.rele_canal4_contador = self.rele_canal4_qtd
                         self.mudar_cor_label("lbRele_canal_4", self.CINZA)
                         self.estado_cor_rele_4 = self.CINZA
         
+                    self.rele_canal4_contador += 1  # Incrementa o contador ao finalizar rele_canal4_toff
                     self.mudar_texto_label("lbRele_qdt_4", f"{self.rele_canal4_contador} de {self.rele_canal4_qtd}")
     
         else:
@@ -798,13 +798,13 @@ class Execucao(QDialog):
     
             self.ui.lbNomeProg.setText(f"{self.nome_programa}: Parado")
     
-        if self.rele_canal1_contador >= self.rele_canal1_qtd and self.rele_canal2_contador >= self.rele_canal2_qtd and self.rele_canal3_contador >= self.rele_canal3_qtd and self.rele_canal4_contador >= self.rele_canal4_qtd:
+        if self.rele_canal1_contador >= self.rele_canal1_qtd+1 and self.rele_canal2_contador >= self.rele_canal2_qtd+1 and self.rele_canal3_contador >= self.rele_canal3_qtd+1 and self.rele_canal4_contador >= self.rele_canal4_qtd+1:
             self.iniciado_rele = False
     
-            self.mudar_texto_label("lbRele_qdt_1", f"{self.rele_canal1_contador} de {self.rele_canal1_qtd}")
-            self.mudar_texto_label("lbRele_qdt_2", f"{self.rele_canal2_contador} de {self.rele_canal2_qtd}")
-            self.mudar_texto_label("lbRele_qdt_3", f"{self.rele_canal3_contador} de {self.rele_canal3_qtd}")
-            self.mudar_texto_label("lbRele_qdt_4", f"{self.rele_canal4_contador} de {self.rele_canal4_qtd}")   
+            self.mudar_texto_label("lbRele_qdt_1", f"{self.rele_canal1_contador-1} de {self.rele_canal1_qtd}")
+            self.mudar_texto_label("lbRele_qdt_2", f"{self.rele_canal2_contador-1} de {self.rele_canal2_qtd}")
+            self.mudar_texto_label("lbRele_qdt_3", f"{self.rele_canal3_contador-1} de {self.rele_canal3_qtd}")
+            self.mudar_texto_label("lbRele_qdt_4", f"{self.rele_canal4_contador-1} de {self.rele_canal4_qtd}")   
     
             self.tempo_rele_decorrido_canal1 = 0
             self.tempo_rele_decorrido_canal2 = 0
