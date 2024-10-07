@@ -334,8 +334,9 @@ class Execucao(QDialog):
                             self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
                             self.estado_cor_npn_1 = self.CINZA
             
-                        self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador} de {self.npn_canal1_qtd}")
                         self.npn_canal1_contador += 1  # Incrementa o contador ao finalizar npn_canal1_toff
+                        if self.npn_canal1_contador <= self.npn_canal1_qtd:
+                            self.mudar_texto_label("lbNpn_qdt_1", f"{self.npn_canal1_contador} de {self.npn_canal1_qtd}")
             else:
                 self.mudar_cor_label("lbNpn_canal_1", self.CINZA)
                 self.estado_cor_npn_1 = self.CINZA
@@ -364,8 +365,9 @@ class Execucao(QDialog):
                             self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
                             self.estado_cor_npn_2 = self.CINZA
             
-                        self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador} de {self.npn_canal2_qtd}")
                         self.npn_canal2_contador += 1  # Incrementa o contador ao finalizar npn_canal2_toff
+                        if self.npn_canal2_contador <= self.npn_canal2_qtd:
+                            self.mudar_texto_label("lbNpn_qdt_2", f"{self.npn_canal2_contador} de {self.npn_canal2_qtd}")
             else:
                 self.mudar_cor_label("lbNpn_canal_2", self.CINZA)
                 self.estado_cor_npn_2 = self.CINZA
@@ -394,8 +396,9 @@ class Execucao(QDialog):
                             self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
                             self.estado_cor_npn_3 = self.CINZA
             
-                        self.mudar_texto_label("lbNpn_qdt_3", f"{self.npn_canal3_contador} de {self.npn_canal3_qtd}")
                         self.npn_canal3_contador += 1  # Incrementa o contador ao finalizar npn_canal3_toff
+                        if self.npn_canal3_contador <= self.npn_canal3_qtd:
+                            self.mudar_texto_label("lbNpn_qdt_3", f"{self.npn_canal3_contador} de {self.npn_canal3_qtd}")
             else:
                 self.mudar_cor_label("lbNpn_canal_3", self.CINZA)
                 self.estado_cor_npn_3 = self.CINZA
@@ -525,8 +528,9 @@ class Execucao(QDialog):
                             self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
                             self.estado_cor_pnp_1 = self.CINZA
 
-                        self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador} de {self.pnp_canal1_qtd}")
                         self.pnp_canal1_contador += 1  # Incrementa o contador ao finalizar pnp_canal1_toff
+                        if self.pnp_canal1_contador <= self.pnp_canal1_qtd:
+                            self.mudar_texto_label("lbPnp_qdt_1", f"{self.pnp_canal1_contador} de {self.pnp_canal1_qtd}")
             else:
                 self.mudar_cor_label("lbPnp_canal_1", self.CINZA)
                 self.estado_cor_pnp_1 = self.CINZA
@@ -556,8 +560,9 @@ class Execucao(QDialog):
                             self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
                             self.estado_cor_pnp_2 = self.CINZA
 
-                        self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador} de {self.pnp_canal2_qtd}")
                         self.pnp_canal2_contador += 1  # Incrementa o contador ao finalizar pnp_canal2_toff
+                        if self.pnp_canal2_contador <= self.pnp_canal2_qtd:
+                            self.mudar_texto_label("lbPnp_qdt_2", f"{self.pnp_canal2_contador} de {self.pnp_canal2_qtd}")
             else:
                 self.mudar_cor_label("lbPnp_canal_2", self.CINZA)
                 self.estado_cor_pnp_2 = self.CINZA
@@ -586,8 +591,9 @@ class Execucao(QDialog):
                             self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
                             self.estado_cor_pnp_3 = self.CINZA
 
-                        self.mudar_texto_label("lbPnp_qdt_3", f"{self.pnp_canal3_contador} de {self.pnp_canal3_qtd}")
                         self.pnp_canal3_contador += 1  # Incrementa o contador ao finalizar pnp_canal3_toff
+                        if self.pnp_canal3_contador <= self.pnp_canal3_qtd:
+                            self.mudar_texto_label("lbPnp_qdt_3", f"{self.pnp_canal3_contador} de {self.pnp_canal3_qtd}")
             else:
                 self.mudar_cor_label("lbPnp_canal_3", self.CINZA)
                 self.estado_cor_pnp_3 = self.CINZA
