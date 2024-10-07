@@ -7,7 +7,8 @@ class AlphanumericKeyboard(QDialog):
         super().__init__()
         self.dado = dado
         self.setWindowTitle("Teclado Alfanumérico")
-        self.resize(480, 320)  # Definir as dimensões da janela
+        self.setGeometry(0, 0, 480, 320)
+        # self.resize(480, 320)  # Definir as dimensões da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
         self.layout.addWidget(self.line_edit)
@@ -58,7 +59,8 @@ class NumericKeyboard(QDialog):
         self.dado = dado
         self.type = type
         self.setWindowTitle("Teclado Numérico")
-        self.resize(480, 320)  # Definir as dimensões da janela
+        self.setGeometry(0, 0, 480, 320)
+        # self.resize(480, 320)  # Definir as dimensões da janela
         self.layout = QVBoxLayout()
         self.line_edit = QLineEdit()
 
