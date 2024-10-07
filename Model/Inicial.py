@@ -46,6 +46,20 @@ class MainMenu(QMainWindow):
 
         self.ui.btInitProg.clicked.connect(self.iniciar_programa)
 
+        self.io.npn_output(0, 0)
+        self.io.npn_output(1, 0)
+        self.io.npn_output(2, 0)
+        self.io.npn_output(3, 0)
+        self.io.pnp_output(0, 0)
+        self.io.pnp_output(1, 0)
+        self.io.pnp_output(2, 0)
+        self.io.pnp_output(3, 0)
+        self.io.relay_output(0, 0)
+        self.io.relay_output(1, 0)
+        self.io.relay_output(2, 0)
+        self.io.relay_output(3, 0)
+        
+
     def enterEvent(self, event):
         if self.dado.mouse_pointer:
             QtGui.QCursor.setPos(self.mapToGlobal(self.rect().center()))
